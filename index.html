@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>SBS 作业追踪</title>
+<meta name="theme-color" content="#2b6cb0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SBS作业追踪">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%232b6cb0' width='100' height='100' rx='20'/><text x='50' y='68' text-anchor='middle' fill='white' font-size='50' font-family='sans-serif'>SBS</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect fill='%232b6cb0' width='32' height='32' rx='6'/><text x='16' y='22' text-anchor='middle' fill='white' font-size='16' font-family='sans-serif'>S</text></svg>">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f0f4f8;color:#2d3748}
+
+header{background:#2b6cb0;color:#fff;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+header h1{font-size:17px}
+.header-btns{display:flex;gap:6px;flex-wrap:wrap}
+
+.class-tabs{display:flex;background:#fff;border-bottom:2px solid #e2e8f0;overflow-x:auto;padding:0 10px}
+.class-tab{flex-shrink:0;padding:9px 14px;border:none;background:none;cursor:pointer;font-size:12px;color:#718096;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.class-tab:hover{color:#2b6cb0}
+.class-tab.active{color:#2b6cb0;border-bottom-color:#2b6cb0;font-weight:600}
+
+main{max-width:1200px;margin:0 auto;padding:12px}
+
+/* Stats */
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:12px}
+.stat-item{background:#fff;border-radius:8px;padding:12px;text-align:center;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.stat-item .num{font-size:26px;font-weight:700}
+.stat-item .lbl{font-size:10px;color:#718096;margin-top:2px}
+.stat-item.g .num{color:#38a169}
+.stat-item.r .num{color:#e53e3e}
+.stat-item.b .num{color:#3182ce}
+.stat-item.o .num{color:#dd6b20}
+.stat-item.p .num{color:#805ad5}
+
+.card{background:#fff;border-radius:8px;padding:14px;margin-bottom:12px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.card h3{font-size:14px;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+.btn{display:inline-block;padding:6px 12px;border:none;border-radius:5px;font-size:12px;cursor:pointer;transition:.2s}
+.btn-p{background:#2b6cb0;color:#fff}
+.btn-p:hover{background:#2c5282}
+.btn-g{background:#38a169;color:#fff}
+.btn-g:hover{background:#2f855a}
+.btn-r{background:#e53e3e;color:#fff}
+.btn-r:hover{background:#c53030}
+.btn-o{background:#edf2f7;color:#4a5568;border:1px solid #e2e8f0}
+.btn-o:hover{background:#e2e8f0}
+.btn-xs{padding:2px 7px;font-size:10px}
+.btn-sm{padding:4px 9px;font-size:11px}
+
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{padding:7px 9px;text-align:left;border-bottom:1px solid #e2e8f0}
+th{background:#f7fafc;color:#4a5568;font-weight:600;white-space:nowrap;font-size:11px}
+tr:hover{background:#f7fafc}
+td.actions{white-space:nowrap}
+
+.badge{display:inline-block;padding:2px 7px;border-radius:9px;font-size:10px;font-weight:600}
+.badge-ok{background:#c6f6d5;color:#276749}
+.badge-no{background:#fed7d7;color:#9b2c2c}
+.badge-warn{background:#feebc8;color:#9c4221}
+.badge-info{background:#bee3f8;color:#2a4365}
+.badge-purple{background:#e9d8fd;color:#553c9a}
+
+/* Type-specific badge colors */
+.type-fuxi{background:#ebf8ff;color:#2b6cb0;border:1px solid #bee3f8}
+.type-ceshi{background:#faf5ff;color:#805ad5;border:1px solid #e9d8fd}
+.type-xiti{background:#fff5f5;color:#c53030;border:1px solid #fed7d7}
+.type-lianxi{background:#f0fff4;color:#276749;border:1px solid #c6f6d5}
+
+.f-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.f-grp{display:flex;flex-direction:column;gap:2px}
+.f-grp label{font-size:10px;color:#718096;font-weight:600}
+.f-grp input,.f-grp select,.f-grp textarea{padding:6px 9px;border:1px solid #e2e8f0;border-radius:5px;font-size:12px}
+.f-grp input:focus,.f-grp select:focus{outline:none;border-color:#2b6cb0;box-shadow:0 0 0 2px rgba(43,108,176,.12)}
+
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:100;justify-content:center;align-items:center}
+.modal.on{display:flex}
+.modal-inner{background:#fff;border-radius:12px;padding:18px;max-width:560px;width:90%;max-height:80vh;overflow-y:auto}
+
+.empty{text-align:center;color:#a0aec0;padding:28px;font-size:13px}
+
+.pbar{height:4px;background:#e2e8f0;border-radius:2px;overflow:hidden;min-width:50px}
+.pfill{height:100%;border-radius:2px}
+
+/* Submission grid */
+.check-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:5px}
+.check-item{display:flex;align-items:center;gap:5px;padding:7px 9px;border-radius:6px;border:1px solid #e2e8f0;cursor:pointer;font-size:12px;transition:.2s;user-select:none}
+.check-item:hover{background:#f7fafc}
+.check-item.done{background:#f0fff4;border-color:#c6f6d5}
+.check-item.undone{background:#fff5f5;border-color:#fed7d7}
+.check-item input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:#38a169}
+.check-item .name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.check-item .info{font-size:10px;color:#718096;cursor:pointer}
+.check-item .info:hover{color:#2b6cb0}
+
+/* Type filter chips */
+.type-filters{display:flex;gap:4px;flex-wrap:wrap}
+.type-chip{padding:4px 10px;border-radius:12px;border:1px solid #e2e8f0;background:#fff;font-size:11px;cursor:pointer;transition:.2s;white-space:nowrap}
+.type-chip:hover{border-color:#2b6cb0;color:#2b6cb0}
+.type-chip.active{background:#2b6cb0;color:#fff;border-color:#2b6cb0}
+
+/* Summary row */
+.summary-row{font-size:12px;color:#718096;margin-bottom:8px}
+
+@media print{
+  header,.class-tabs,.btn,button,.modal,.header-btns,.type-filters{display:none!important}
+  .card{box-shadow:none;border:1px solid #e2e8f0;break-inside:avoid}
+  body{background:#fff}
+  .check-item.done{background:#fff;border-color:#c6f6d5}
+  .check-item.undone{background:#fff;border-color:#e2e8f0}
+}
+
+@media (max-width:768px){
+  .check-grid{grid-template-columns:repeat(2,1fr)}
+  .stats-bar{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>SBS 作业追踪</h1>
+  <div class="header-btns">
+    <button class="btn btn-sm" style="background:rgba(255,255,255,.2);color:#fff" onclick="exportData()">导出</button>
+    <button class="btn btn-sm" style="background:rgba(255,255,255,.2);color:#fff" onclick="importDataPrompt()">导入</button>
+    <button class="btn btn-sm" style="background:rgba(255,255,255,.2);color:#fff" onclick="window.print()">打印</button>
+  </div>
+</header>
+
+<div class="class-tabs" id="class-tabs">
+  <button class="class-tab active" data-class="">全部班级</button>
+</div>
+
+<main>
+  <!-- Stats -->
+  <div class="stats-bar" id="stats-bar"></div>
+
+  <!-- Quick submit area - main working area -->
+  <div class="card">
+    <h3>
+      提交登记
+      <select id="qs-type" style="font-size:12px;padding:3px 6px;border:1px solid #e2e8f0;border-radius:4px" onchange="onTypeFilterChange()">
+        <option value="">全部类型</option>
+      </select>
+      <select id="qs-assignment" style="font-size:12px;padding:3px 6px;border:1px solid #e2e8f0;border-radius:4px;min-width:160px" onchange="renderQuickSubmit()"></select>
+      <button class="btn btn-sm btn-p" onclick="openAddAssignment()">+ 新作业</button>
+    </h3>
+    <div id="quick-submit-grid"></div>
+  </div>
+
+  <!-- Error details - only for 测试卷 -->
+  <div class="card" id="error-card">
+    <h3>错题详情（仅测试卷）</h3>
+    <div id="error-table"></div>
+  </div>
+
+  <!-- Management -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div class="card">
+      <h3>学生 <button class="btn btn-sm btn-p" onclick="openAddStudent()">+ 添加</button></h3>
+      <div id="student-list"></div>
+    </div>
+    <div class="card">
+      <h3>作业 <button class="btn btn-sm btn-p" onclick="openAddAssignment()">+ 添加</button></h3>
+      <div id="assignment-list"></div>
+    </div>
+  </div>
+</main>
+
+<div class="modal" id="modal"><div class="modal-inner" id="modal-inner"></div></div>
+
+<script>
+const CLASS_NAMES = [
+  '周六SBS 15:00班','周六SBS 16:40班','周日SBS 10:40班',
+  '周日SBS 13:00班','周日SBS 14:00班','周日SBS 15:00班'
+];
+
+const ASSIGN_TYPES = ['复习作业','测试卷','习题','练习册'];
+
+const ERROR_REASONS = [
+  '单复数错误','be动词混淆(am/is/are)','单词背错','时态错误',
+  '代词错误','冠词遗漏/误用','介词错误','语序错误',
+  '第三人称单数','拼写错误','句型错误',
+  '阅读理解错误','听力错误','审题不清',
+  '粗心大意','书写不规范','未掌握知识点'
+];
+
+const KEY = 'sbs_tracker_v3';
+let data = { students:[], assignments:[], submissions:[] };
+let currentClass = '';
+let typeFilter = ''; // current type filter
+
+function save(){ localStorage.setItem(KEY, JSON.stringify(data)) }
+function load(){
+  const r = localStorage.getItem(KEY);
+  if(r){
+    try{ data = JSON.parse(r) }catch(e){}
+    if(!data.students) data.students = [];
+    if(!data.assignments) data.assignments = [];
+    if(!data.submissions) data.submissions = [];
+  }
+}
+
+function $(id){ return document.getElementById(id) }
+function ts(){ return new Date().toISOString().slice(0,16) }
+function fd(d){ return d ? d.slice(0,10) : '' }
+function esc(s){ const d=document.createElement('div'); d.textContent=s||''; return d.innerHTML }
+function gs(id){ return data.students.find(s=>s.id===id) }
+function ga(id){ return data.assignments.find(a=>a.id===id) }
+function studentsInClass(cls){ return cls ? data.students.filter(s=>s.group===cls) : data.students }
+
+// ====== CLASS TABS ======
+function buildClassTabs(){
+  const container = $('class-tabs');
+  let html = '<button class="class-tab '+(currentClass===''?'active':'')+'" data-class="">全部班级</button>';
+  CLASS_NAMES.forEach(cn => {
+    html += `<button class="class-tab ${currentClass===cn?'active':''}" data-class="${esc(cn)}">${esc(cn)}</button>`;
+  });
+  container.innerHTML = html;
+  container.querySelectorAll('.class-tab').forEach(btn => {
+    btn.addEventListener('click', function(){
+      currentClass = this.dataset.class;
+      container.querySelectorAll('.class-tab').forEach(b=>b.classList.remove('active'));
+      this.classList.add('active');
+      refreshAll();
+    });
+  });
+}
+
+// ====== TYPE FILTER CHIPS in the submission area ======
+function renderTypeFilter(){
+  const sel = $('qs-type');
+  sel.innerHTML = '<option value="">全部类型</option>' +
+    ASSIGN_TYPES.map(t => `<option value="${t}">${t}</option>`).join('');
+  sel.value = typeFilter;
+}
+
+function onTypeFilterChange(){
+  typeFilter = $('qs-type').value;
+  renderQuickSubmit();
+}
+
+// ====== REFRESH ALL ======
+function refreshAll(){
+  renderTypeFilter();
+  renderStats();
+  renderQuickSubmit();
+  renderErrorTable();
+  renderStudentList();
+  renderAssignmentList();
+}
+
+// ====== STATS ======
+function renderStats(){
+  const students = studentsInClass(currentClass);
+  const totalS = students.length;
+
+  let counts = {};
+  ASSIGN_TYPES.forEach(t => { counts[t] = {done:0, miss:0, wrong:0} });
+
+  data.assignments.forEach(a => {
+    const type = a.type || '测试卷';
+    students.forEach(s => {
+      const sub = data.submissions.find(r=>r.studentId===s.id && r.assignmentId===a.id);
+      if(sub && sub.status==='submitted'){
+        counts[type].done++;
+        counts[type].wrong += sub.wrongCount||0;
+      } else {
+        counts[type].miss++;
+      }
+    });
+  });
+
+  let totalDone = 0, totalMiss = 0, totalWrong = 0;
+  Object.values(counts).forEach(c => { totalDone += c.done; totalMiss += c.miss; totalWrong += c.wrong; });
+  const rate = (totalDone+totalMiss)>0 ? Math.round(totalDone/(totalDone+totalMiss)*100) : 0;
+
+  let html = `
+    <div class="stat-item b"><div class="num">${totalS}</div><div class="lbl">学生数</div></div>
+    <div class="stat-item g"><div class="num">${rate}%</div><div class="lbl">总完成率</div></div>
+    <div class="stat-item g"><div class="num">${totalDone}</div><div class="lbl">已完成人次</div></div>
+    <div class="stat-item r"><div class="num">${totalMiss}</div><div class="lbl">未完成人次</div></div>`;
+
+  // Per-type breakdown
+  ASSIGN_TYPES.forEach(t => {
+    if(data.assignments.some(a=>(a.type||'测试卷')===t)){
+      const c = counts[t];
+      const trate = (c.done+c.miss)>0 ? Math.round(c.done/(c.done+c.miss)*100) : 0;
+      html += `<div class="stat-item p"><div class="num">${trate}%</div><div class="lbl">${t}完成率</div></div>`;
+    }
+  });
+
+  html += `<div class="stat-item o"><div class="num">${totalWrong}</div><div class="lbl">累计错题</div></div>`;
+  $('stats-bar').innerHTML = html;
+}
+
+// ====== QUICK SUBMIT ======
+function renderQuickSubmit(){
+  const sel = $('qs-assignment');
+  const prev = sel.value;
+
+  // Build assignment options, filtered by type
+  let filtered = data.assignments;
+  if(typeFilter) filtered = filtered.filter(a=>(a.type||'测试卷')===typeFilter);
+
+  sel.innerHTML = '<option value="">-- 选择作业 --</option>' +
+    filtered.map(a => `<option value="${a.id}">[${esc(a.type||'测试卷')}] ${esc(a.title)} (${fd(a.dueDate)})</option>`).join('');
+  if(prev && filtered.find(a=>a.id===parseInt(prev))) sel.value = prev;
+
+  const aid = sel.value ? parseInt(sel.value) : null;
+  const students = studentsInClass(currentClass);
+  const grid = $('quick-submit-grid');
+
+  if(!aid){
+    grid.innerHTML = '<div class="empty">请先选择（或新建）一个作业</div>';
+    return;
+  }
+  if(students.length === 0){
+    grid.innerHTML = '<div class="empty">该班级还没有学生，请先添加学生</div>';
+    return;
+  }
+
+  const assignment = ga(aid);
+  const isTest = (assignment.type||'测试卷') === '测试卷';
+
+  let doneCount = 0;
+  let html = '';
+  students.forEach(s => {
+    const sub = data.submissions.find(r=>r.studentId===s.id && r.assignmentId===aid);
+    const isDone = sub && sub.status==='submitted';
+    if(isDone) doneCount++;
+    const wrong = (sub && sub.wrongCount) ? sub.wrongCount : 0;
+
+    let rightLabel = '';
+    if(isDone){
+      if(isTest && wrong > 0){
+        rightLabel = `<span class="info" onclick="event.stopPropagation();openErrorModal(${s.id},${aid})" title="点击编辑错题">错${wrong}</span>`;
+      } else {
+        rightLabel = '<span style="color:#38a169;font-size:14px">✓</span>';
+      }
+    }
+
+    html += `<div class="check-item ${isDone?'done':'undone'}" onclick="toggleSubmit(${s.id},${aid})" title="点击切换">
+      <input type="checkbox" ${isDone?'checked':''} onclick="event.stopPropagation();toggleSubmit(${s.id},${aid})">
+      <span class="name">${esc(s.name)}</span>
+      ${rightLabel}
+    </div>`;
+  });
+
+  const total = students.length;
+  $('quick-submit-grid').innerHTML = `
+    <div class="summary-row">${doneCount}/${total} 已完成 · ${total-doneCount} 未完成 · 类型：<span class="badge badge-info">${esc(assignment.type||'测试卷')}</span></div>
+    <div class="check-grid">${html}</div>`;
+}
+
+function toggleSubmit(sid, aid){
+  const idx = data.submissions.findIndex(r=>r.studentId===sid && r.assignmentId===aid);
+  if(idx >= 0){
+    data.submissions[idx].status = data.submissions[idx].status==='submitted' ? 'not_submitted' : 'submitted';
+    if(data.submissions[idx].status==='submitted') data.submissions[idx].submittedAt = ts();
+  } else {
+    data.submissions.push({ id:Date.now(), studentId:sid, assignmentId:aid, status:'submitted', submittedAt:ts(), wrongCount:0, errors:[] });
+  }
+  save(); renderQuickSubmit(); renderStats(); renderErrorTable();
+}
+
+// ====== ERROR TABLE (only for 测试卷) ======
+function renderErrorTable(){
+  const aid = $('qs-assignment').value ? parseInt($('qs-assignment').value) : null;
+  const assignment = aid ? ga(aid) : null;
+  const students = studentsInClass(currentClass);
+
+  if(!assignment){
+    $('error-table').innerHTML = '<div class="empty">请先在上方选择作业</div>';
+    return;
+  }
+
+  const isTest = (assignment.type||'测试卷') === '测试卷';
+  if(!isTest){
+    $('error-table').innerHTML = '<div class="empty" style="color:#718096">「'+esc(assignment.type||'测试卷')+'」类型无需录入错题，只记录完成即可</div>';
+    return;
+  }
+
+  const submittedSubs = data.submissions.filter(r =>
+    r.assignmentId === aid && r.status === 'submitted' &&
+    students.some(s=>s.id===r.studentId)
+  );
+
+  if(submittedSubs.length === 0){
+    $('error-table').innerHTML = '<div class="empty">该作业还没有学生提交</div>';
+    return;
+  }
+
+  let rows = '';
+  submittedSubs.forEach(sub => {
+    const s = gs(sub.studentId);
+    const errors = sub.errors || [];
+    let errStr = errors.length>0
+      ? errors.map(e => `<span style="display:inline-block;background:#edf2f7;padding:1px 5px;border-radius:3px;font-size:10px;margin:1px">第${e.questionNo}题:${e.errorReason}</span>`).join(' ')
+      : '<span style="color:#a0aec0">--</span>';
+    const score = assignment.totalQuestions>0
+      ? Math.round((assignment.totalQuestions-(sub.wrongCount||0))/assignment.totalQuestions*100)
+      : '-';
+
+    rows += `<tr>
+      <td><strong>${esc(s?s.name:'?')}</strong></td>
+      <td>${sub.wrongCount||0} / ${assignment.totalQuestions}</td>
+      <td>${score}${score!=='-'?'分':''}</td>
+      <td>${errStr}</td>
+      <td class="actions"><button class="btn btn-xs btn-p" onclick="openErrorModal(${sub.studentId},${aid})">编辑</button></td>
+    </tr>`;
+  });
+
+  $('error-table').innerHTML = `<div class="tbl-wrap"><table>
+    <thead><tr><th>学生</th><th>错题</th><th>得分</th><th>错因</th><th>操作</th></tr></thead>
+    <tbody>${rows}</tbody></table></div>`;
+}
+
+// ====== ERROR MODAL ======
+function openErrorModal(sid, aid){
+  const student = gs(sid);
+  const assignment = ga(aid);
+  if(!student || !assignment) return;
+  const sub = data.submissions.find(r=>r.studentId===sid && r.assignmentId===aid);
+  const existing = (sub && sub.errors) ? sub.errors : [];
+
+  let html = `<h3 style="margin-bottom:10px">错题录入 — ${esc(student.name)} — ${esc(assignment.title)}</h3>`;
+  html += `<div class="f-row">
+    <div class="f-grp"><label>错题数</label><input type="number" id="err-cnt" value="${existing.length}" min="0" max="${assignment.totalQuestions}" style="width:70px" onchange="buildErrorFields()"></div>
+    <div style="display:flex;align-items:flex-end"><span style="font-size:11px;color:#718096">共 ${assignment.totalQuestions} 题</span></div>
+  </div>`;
+  html += '<div id="err-fields"></div>';
+  html += `<div class="btn-group" style="margin-top:10px;justify-content:flex-end">
+    <button class="btn btn-o" onclick="closeModal()">取消</button>
+    <button class="btn btn-p" id="save-err">保存</button></div>`;
+
+  $('modal-inner').innerHTML = html;
+  $('modal').classList.add('on');
+  buildErrorFields();
+  setTimeout(() => {
+    existing.forEach((e,i) => {
+      const qEl = document.getElementById('eq-'+i);
+      const rEl = document.getElementById('er-'+i);
+      if(qEl) qEl.value = e.questionNo;
+      if(rEl) rEl.value = e.errorReason;
+    });
+  }, 30);
+
+  $('save-err').onclick = function(){
+    const cnt = parseInt($('err-cnt').value)||0;
+    const errors = [];
+    for(let i=0;i<cnt;i++){
+      errors.push({
+        questionNo: parseInt(document.getElementById('eq-'+i)?.value)||(i+1),
+        errorReason: document.getElementById('er-'+i)?.value||ERROR_REASONS[0]
+      });
+    }
+    let idx = data.submissions.findIndex(r=>r.studentId===sid && r.assignmentId===aid);
+    if(idx<0){ data.submissions.push({ id:Date.now(), studentId:sid, assignmentId:aid, status:'submitted', submittedAt:ts(), wrongCount:0, errors:[] }); idx=data.submissions.length-1; }
+    data.submissions[idx].wrongCount = cnt;
+    data.submissions[idx].errors = errors;
+    data.submissions[idx].status = 'submitted';
+    save(); closeModal(); refreshAll();
+  };
+}
+
+function buildErrorFields(){
+  const cnt = parseInt($('err-cnt')?.value)||0;
+  let html = '';
+  for(let i=0;i<cnt;i++){
+    html += `<div class="f-row" style="margin-bottom:5px">
+      <div class="f-grp"><label>题号</label><input type="number" id="eq-${i}" value="${i+1}" min="1" style="width:65px"></div>
+      <div class="f-grp" style="flex:1"><label>错因</label><select id="er-${i}">${ERROR_REASONS.map(r=>`<option value="${r}">${r}</option>`).join('')}</select></div></div>`;
+  }
+  const el = document.getElementById('err-fields');
+  if(el) el.innerHTML = html;
+}
+
+// ====== STUDENT LIST ======
+function renderStudentList(){
+  const students = studentsInClass(currentClass);
+  if(students.length===0){ $('student-list').innerHTML='<div class="empty">暂无学生</div>'; return; }
+  let html = '<table><thead><tr><th>姓名</th><th>班级</th><th>完成率</th><th>错题</th><th>操作</th></tr></thead><tbody>';
+  students.forEach(s => {
+    const allSubs = data.submissions.filter(r=>r.studentId===s.id);
+    const doneSubs = allSubs.filter(r=>r.status==='submitted');
+    const totalWrong = allSubs.reduce((sum,r)=>sum+(r.wrongCount||0),0);
+    const completeRate = allSubs.length>0 ? Math.round(doneSubs.length/allSubs.length*100) : '-';
+    html += `<tr>
+      <td><strong>${esc(s.name)}</strong></td><td>${esc(s.group)}</td>
+      <td>${completeRate==='-'?'-':`<span class="badge ${completeRate>=80?'badge-ok':completeRate>=50?'badge-warn':'badge-no'}">${completeRate}%</span>`}</td>
+      <td><span class="badge ${totalWrong===0?'badge-ok':totalWrong<=5?'badge-warn':'badge-no'}">${totalWrong}题</span></td>
+      <td class="actions">
+        <button class="btn btn-xs btn-o" onclick="openEditStudent(${s.id})">编辑</button>
+        <button class="btn btn-xs btn-r" onclick="deleteStudent(${s.id})">删除</button></td></tr>`;
+  });
+  html += '</tbody></table>';
+  $('student-list').innerHTML = html;
+}
+
+function openAddStudent(){
+  $('modal-inner').innerHTML = `
+    <h3 style="margin-bottom:10px">添加学生</h3>
+    <div class="f-row"><div class="f-grp" style="flex:1"><label>姓名 *</label><input id="st-name" placeholder="小朋友姓名"></div></div>
+    <div class="f-row"><div class="f-grp" style="flex:1"><label>班级 *</label>
+      <select id="st-class">${CLASS_NAMES.map(c=>`<option value="${esc(c)}" ${c===currentClass?'selected':''}>${esc(c)}</option>`).join('')}</select></div></div>
+    <div class="btn-group" style="margin-top:10px;justify-content:flex-end">
+      <button class="btn btn-o" onclick="closeModal()">取消</button>
+      <button class="btn btn-p" id="sv-st">保存</button></div>`;
+  $('modal').classList.add('on');
+  $('sv-st').onclick=function(){
+    const name=$('st-name').value.trim();
+    if(!name){ alert('请输入姓名'); return; }
+    data.students.push({ id:Date.now(), name, group:$('st-class').value });
+    save(); closeModal(); refreshAll();
+  };
+}
+
+function openEditStudent(id){
+  const s=gs(id); if(!s) return;
+  $('modal-inner').innerHTML = `
+    <h3 style="margin-bottom:10px">编辑学生</h3>
+    <div class="f-row"><div class="f-grp" style="flex:1"><label>姓名</label><input id="st-name" value="${esc(s.name)}"></div></div>
+    <div class="f-row"><div class="f-grp" style="flex:1"><label>班级</label>
+      <select id="st-class">${CLASS_NAMES.map(c=>`<option value="${esc(c)}" ${c===s.group?'selected':''}>${esc(c)}</option>`).join('')}</select></div></div>
+    <div class="btn-group" style="margin-top:10px;justify-content:flex-end">
+      <button class="btn btn-o" onclick="closeModal()">取消</button>
+      <button class="btn btn-p" id="sv-st">保存</button></div>`;
+  $('modal').classList.add('on');
+  $('sv-st').onclick=function(){ s.name=$('st-name').value.trim(); s.group=$('st-class').value; save(); closeModal(); refreshAll(); };
+}
+
+function deleteStudent(id){
+  if(!confirm('确定删除该学生？相关提交记录也会删除。')) return;
+  data.students=data.students.filter(s=>s.id!==id);
+  data.submissions=data.submissions.filter(r=>r.studentId!==id);
+  save(); refreshAll();
+}
+
+// ====== ASSIGNMENT LIST ======
+function renderAssignmentList(){
+  if(data.assignments.length===0){ $('assignment-list').innerHTML='<div class="empty">暂无作业</div>'; return; }
+  const students = studentsInClass(currentClass);
+  let html = '<table><thead><tr><th>标题</th><th>类型</th><th>截止</th><th>完成率</th><th>操作</th></tr></thead><tbody>';
+  data.assignments.slice().reverse().forEach(a => {
+    let done=0;
+    students.forEach(s=>{ const sub=data.submissions.find(r=>r.studentId===s.id&&r.assignmentId===a.id); if(sub&&sub.status==='submitted') done++; });
+    const pct=students.length>0?Math.round(done/students.length*100):0;
+    const atype = a.type||'测试卷';
+    const typeCls = atype==='复习作业'?'type-fuxi':atype==='测试卷'?'type-ceshi':atype==='习题'?'type-xiti':'type-lianxi';
+    html += `<tr>
+      <td><strong>${esc(a.title)}</strong></td>
+      <td><span class="badge ${typeCls}">${esc(atype)}</span></td>
+      <td>${fd(a.dueDate)}</td>
+      <td><div style="display:flex;align-items:center;gap:5px"><div class="pbar" style="flex:1"><div class="pfill" style="width:${pct}%;background:${pct>=80?'#38a169':pct>=50?'#dd6b20':'#e53e3e'}"></div></div><span style="font-size:10px">${done}/${students.length}</span></div></td>
+      <td class="actions"><button class="btn btn-xs btn-o" onclick="openEditAssignment(${a.id})">编辑</button><button class="btn btn-xs btn-r" onclick="deleteAssignment(${a.id})">删除</button></td></tr>`;
+  });
+  html += '</tbody></table>';
+  $('assignment-list').innerHTML = html;
+}
+
+function openAddAssignment(){
+  $('modal-inner').innerHTML = `
+    <h3 style="margin-bottom:10px">布置新作业</h3>
+    <div class="f-row"><div class="f-grp" style="flex:1"><label>作业标题 *</label><input id="asg-title" placeholder="如：Unit 5 测试卷"></div></div>
+    <div class="f-row">
+      <div class="f-grp"><label>类型 *</label><select id="asg-type">${ASSIGN_TYPES.map(t=>`<option value="${t}">${t}</option>`).join('')}</select></div>
+      <div class="f-grp"><label>总题数</label><input type="number" id="asg-total" value="10" min="1" style="width:80px"></div>
+      <div class="f-grp"><label>截止日期</label><input type="date" id="asg-due"></div></div>
+    <div class="btn-group" style="margin-top:10px;justify-content:flex-end">
+      <button class="btn btn-o" onclick="closeModal()">取消</button>
+      <button class="btn btn-p" id="sv-asg">保存</button></div>`;
+  $('asg-due').value = new Date(Date.now()+7*86400000).toISOString().slice(0,10);
+  $('modal').classList.add('on');
+  $('sv-asg').onclick=function(){
+    const title=$('asg-title').value.trim();
+    if(!title){ alert('请输入作业标题'); return; }
+    data.assignments.push({ id:Date.now(), title, type:$('asg-type').value, totalQuestions:parseInt($('asg-total').value)||10, dueDate:$('asg-due').value, createdAt:ts() });
+    save(); closeModal(); refreshAll();
+  };
+}
+
+function openEditAssignment(id){
+  const a=ga(id); if(!a) return;
+  $('modal-inner').innerHTML = `
+    <h3 style="margin-bottom:10px">编辑作业</h3>
+    <div class="f-row"><div class="f-grp" style="flex:1"><label>作业标题</label><input id="asg-title" value="${esc(a.title)}"></div></div>
+    <div class="f-row">
+      <div class="f-grp"><label>类型</label><select id="asg-type">${ASSIGN_TYPES.map(t=>`<option value="${t}" ${(a.type||'测试卷')===t?'selected':''}>${t}</option>`).join('')}</select></div>
+      <div class="f-grp"><label>总题数</label><input type="number" id="asg-total" value="${a.totalQuestions}" min="1" style="width:80px"></div>
+      <div class="f-grp"><label>截止日期</label><input type="date" id="asg-due" value="${a.dueDate||''}"></div></div>
+    <div class="btn-group" style="margin-top:10px;justify-content:flex-end">
+      <button class="btn btn-o" onclick="closeModal()">取消</button>
+      <button class="btn btn-p" id="sv-asg">保存</button></div>`;
+  $('modal').classList.add('on');
+  $('sv-asg').onclick=function(){ a.title=$('asg-title').value.trim(); a.type=$('asg-type').value; a.totalQuestions=parseInt($('asg-total').value)||10; a.dueDate=$('asg-due').value; save(); closeModal(); refreshAll(); };
+}
+
+function deleteAssignment(id){
+  if(!confirm('确定删除该作业？相关提交记录也会删除。')) return;
+  data.assignments=data.assignments.filter(a=>a.id!==id);
+  data.submissions=data.submissions.filter(r=>r.assignmentId!==id);
+  save(); refreshAll();
+}
+
+// ====== MODAL ======
+function closeModal(){ $('modal').classList.remove('on') }
+$('modal').addEventListener('click',function(e){ if(e.target===this) closeModal() })
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeModal() })
+
+// ====== IMPORT/EXPORT ======
+function exportData(){
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='sbs-backup-'+new Date().toISOString().slice(0,10)+'.json'; a.click(); URL.revokeObjectURL(a.href);
+}
+function importDataPrompt(){
+  const inp=document.createElement('input'); inp.type='file'; inp.accept='.json';
+  inp.onchange=function(e){
+    const file=e.target.files[0]; if(!file) return;
+    const reader=new FileReader();
+    reader.onload=function(e){
+      try{
+        const imp=JSON.parse(e.target.result);
+        if(imp.students&&imp.assignments&&imp.submissions){
+          if(confirm(`导入 ${imp.students.length} 名学生、${imp.assignments.length} 次作业、${imp.submissions.length} 条记录。\n\n这会覆盖当前数据，确定吗？`)){ data=imp; save(); closeModal(); refreshAll(); buildClassTabs(); alert('导入成功！') }
+        }else{alert('文件格式不正确')}
+      }catch(err){alert('解析失败: '+err.message)}
+    }; reader.readAsText(file);
+  }; inp.click();
+}
+
+// ====== PWA ======
+(function(){
+  // Manifest as blob URL (keeps everything in one file)
+  const manifest = {
+    name: 'SBS 英语作业追踪',
+    short_name: 'SBS作业',
+    description: 'SBS班级作业提交与错题追踪系统',
+    start_url: location.href,
+    display: 'standalone',
+    orientation: 'any',
+    background_color: '#f0f4f8',
+    theme_color: '#2b6cb0',
+    icons: [{
+      src: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect fill="#2b6cb0" width="192" height="192" rx="32"/><text x="96" y="128" text-anchor="middle" fill="white" font-size="96" font-family="sans-serif" font-weight="bold">S</text></svg>'),
+      sizes: '192x192', type: 'image/svg+xml', purpose: 'any maskable'
+    }]
+  };
+  const manifestBlob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+  const manifestUrl = URL.createObjectURL(manifestBlob);
+  const link = document.createElement('link');
+  link.rel = 'manifest'; link.href = manifestUrl;
+  document.head.appendChild(link);
+
+  // Service Worker for offline cache
+  if('serviceWorker' in navigator){
+    const swCode = `
+      const CACHE = 'sbs-tracker-v1';
+      const URLS = ['${location.href}'];
+      self.addEventListener('install', e => {
+        e.waitUntil(caches.open(CACHE).then(c => c.addAll(URLS)).catch(()=>{}));
+        self.skipWaiting();
+      });
+      self.addEventListener('fetch', e => {
+        e.respondWith(
+          caches.match(e.request).then(r => r || fetch(e.request).then(resp => {
+            if(resp.ok){ const clone = resp.clone(); caches.open(CACHE).then(c => c.put(e.request, clone)); }
+            return resp;
+          }).catch(() => caches.match(e.request)))
+        );
+      });
+    `;
+    const swBlob = new Blob([swCode], {type:'application/javascript'});
+    const swUrl = URL.createObjectURL(swBlob);
+    navigator.serviceWorker.register(swUrl).catch(()=>{});
+  }
+
+  // Install prompt
+  let deferredPrompt;
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault();
+    deferredPrompt = e;
+  });
+})();
+
+// ====== INIT ======
+load();
+buildClassTabs();
+refreshAll();
+</script>
+</body>
+</html>
