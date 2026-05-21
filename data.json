@@ -1,0 +1,105 @@
+{
+  "students": [
+    {
+      "id": 1779374984847,
+      "name": "Jeff",
+      "group": "周六SBS 15:00班"
+    },
+    {
+      "id": 1779374989096,
+      "name": "cindy",
+      "group": "周六SBS 15:00班"
+    },
+    {
+      "id": 1779374998946,
+      "name": "tiana",
+      "group": "周六SBS 15:00班"
+    },
+    {
+      "id": 1779375004013,
+      "name": "joll",
+      "group": "周六SBS 15:00班"
+    },
+    {
+      "id": 1779375013780,
+      "name": "jasper",
+      "group": "周六SBS 15:00班"
+    },
+    {
+      "id": 1779375017696,
+      "name": "Jesse",
+      "group": "周六SBS 15:00班"
+    },
+    {
+      "id": 1779375022396,
+      "name": "harley",
+      "group": "周六SBS 15:00班"
+    },
+    {
+      "id": 1779375028630,
+      "name": "Aaron",
+      "group": "周六SBS 15:00班"
+    },
+    {
+      "id": 1779375033246,
+      "name": "ben",
+      "group": "周六SBS 15:00班"
+    },
+    {
+      "id": 1779375107379,
+      "name": "Steven",
+      "group": "周六SBS 16:40班"
+    },
+    {
+      "id": 1779375116063,
+      "name": "Caleb",
+      "group": "周六SBS 16:40班"
+    },
+    {
+      "id": 1779375120379,
+      "name": "Albert",
+      "group": "周六SBS 16:40班"
+    },
+    {
+      "id": 1779375127962,
+      "name": "Shawn",
+      "group": "周六SBS 16:40班"
+    },
+    {
+      "id": 1779375146312,
+      "name": "Adam",
+      "group": "周六SBS 16:40班"
+    }
+  ],
+  "assignments": [
+    {
+      "id": 1779375063616,
+      "title": "第11课lesson 5-2",
+      "classGroup": "周六SBS 15:00班",
+      "type": "测试卷",
+      "totalQuestions": 10,
+      "dueDate": "2026-05-28",
+      "createdAt": "2026-05-21T14:51"
+    },
+    {
+      "id": 1779375072915,
+      "title": "第11课 lesson 5-2 练习册",
+      "classGroup": "周六SBS 15:00班",
+      "type": "复习作业",
+      "totalQuestions": 10,
+      "dueDate": "2026-05-28",
+      "createdAt": "2026-05-21T14:51"
+    },
+    {
+      "id": 1779375160646,
+      "title": "第14课time zone 4 unit 1-2",
+      "classGroup": "周六SBS 16:40班",
+      "type": "复习作业",
+      "totalQuestions": 10,
+      "dueDate": "2026-05-28",
+      "createdAt": "2026-05-21T14:52"
+    }
+  ],
+  "submissions": [],
+  "_modified": 1779379278564
+}
