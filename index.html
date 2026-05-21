@@ -133,6 +133,12 @@ td.actions{white-space:nowrap}
 .err-check{display:flex;align-items:center;gap:3px;font-size:11px;cursor:pointer;padding:2px 4px;border-radius:3px;white-space:nowrap}
 .err-check:hover{background:#edf2f7}
 .err-check input[type=checkbox]{width:13px;height:13px;cursor:pointer;accent-color:#2b6cb0}
+.q-grid{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
+.q-tile{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;transition:.15s;border:2px solid transparent;user-select:none}
+.q-tile.ok{background:#f0fff4;color:#38a169;border-color:#c6f6d5}
+.q-tile.ok:hover{background:#c6f6d5}
+.q-tile.wrong{background:#fff5f5;color:#e53e3e;border-color:#feb2b2}
+.q-tile.wrong:hover{background:#fed7d7}
 </style>
 </head>
 <body>
@@ -621,71 +627,120 @@ function openErrorModal(sid, aid){
   if(!student || !assignment) return;
   const sub = data.submissions.find(r=>r.studentId===sid && r.assignmentId===aid);
   const existing = (sub && sub.errors) ? sub.errors : [];
+  const totalQ = assignment.totalQuestions || 10;
 
-  let html = `<h3 style="margin-bottom:10px">错题录入 — ${esc(student.name)} — ${esc(assignment.title)}</h3>`;
-  html += `<div class="f-row">
-    <div class="f-grp"><label>错题数</label><input type="number" id="err-cnt" value="${existing.length}" min="0" max="${assignment.totalQuestions}" style="width:70px" onchange="buildErrorFields()"></div>
-    <div style="display:flex;align-items:flex-end"><span style="font-size:11px;color:#718096">共 ${assignment.totalQuestions} 题</span></div>
-  </div>`;
-  html += '<div id="err-fields"></div>';
-  html += `<div class="btn-group" style="margin-top:10px;justify-content:flex-end">
-    <button class="btn btn-o" onclick="closeModal()">取消</button>
-    <button class="btn btn-p" id="save-err">保存</button></div>`;
+  // Build map: questionNo -> errorReasons
+  const errMap = {};
+  existing.forEach(function(e){
+    const reasons = e.errorReasons || (e.errorReason ? [e.errorReason] : []);
+    errMap[e.questionNo] = reasons;
+  });
+
+  let html = '<h3 style="margin-bottom:6px">错题录入 — ' + esc(student.name) + ' — ' + esc(assignment.title) + '</h3>';
+  html += '<p style="font-size:11px;color:#718096;margin-bottom:8px">点击题号标记错题，再选择错因</p>';
+
+  // Question grid - all question numbers as toggles
+  html += '<div class="q-grid" id="q-grid">';
+  for(let q=1; q<=totalQ; q++){
+    const isWrong = errMap[q] !== undefined;
+    html += '<div class="q-tile ' + (isWrong?'wrong':'ok') + '" id="qt-'+q+'" onclick="toggleQTile('+q+','+totalQ+')" title="点击标记对/错">'+q+'</div>';
+  }
+  html += '</div>';
+
+  // Error reason area for wrong questions
+  html += '<div id="err-detail-area" style="margin-top:10px">';
+  html += buildErrDetailHTML(errMap, totalQ);
+  html += '</div>';
+
+  html += '<div class="btn-group" style="margin-top:10px;justify-content:flex-end">';
+  html += '<button class="btn btn-o" onclick="closeModal()">取消</button>';
+  html += '<button class="btn btn-p" id="save-err">保存</button></div>';
 
   $('modal-inner').innerHTML = html;
   $('modal').classList.add('on');
-  buildErrorFields();
-  setTimeout(function(){
-    existing.forEach(function(e,i){
-      const qEl = document.getElementById('eq-'+i);
-      if(qEl) qEl.value = e.questionNo;
-      // Handle both old format (errorReason string) and new format (errorReasons array)
-      const reasons = e.errorReasons || (e.errorReason ? [e.errorReason] : []);
-      ERROR_REASONS.forEach(function(r,j){
-        const cb = document.getElementById('er-'+i+'-'+j);
-        if(cb) cb.checked = reasons.indexOf(r) >= 0;
-      });
-    });
-  }, 30);
+  // Make modal wider for this view
+  $('modal-inner').style.maxWidth = '680px';
 
   $('save-err').onclick = function(){
-    const cnt = parseInt($('err-cnt').value)||0;
     const errors = [];
-    for(let i=0;i<cnt;i++){
+    for(let q=1; q<=totalQ; q++){
       const reasons = [];
       ERROR_REASONS.forEach(function(r,j){
-        const cb = document.getElementById('er-'+i+'-'+j);
+        const cb = document.getElementById('er-'+q+'-'+j);
         if(cb && cb.checked) reasons.push(r);
       });
-      errors.push({
-        questionNo: parseInt(document.getElementById('eq-'+i)?.value)||(i+1),
-        errorReasons: reasons
-      });
+      if(reasons.length > 0){
+        errors.push({ questionNo: q, errorReasons: reasons });
+      }
     }
     let idx = data.submissions.findIndex(r=>r.studentId===sid && r.assignmentId===aid);
     if(idx<0){ data.submissions.push({ id:Date.now(), studentId:sid, assignmentId:aid, status:'submitted', submittedAt:ts(), wrongCount:0, errors:[] }); idx=data.submissions.length-1; }
-    data.submissions[idx].wrongCount = cnt;
+    data.submissions[idx].wrongCount = errors.length;
     data.submissions[idx].errors = errors;
     data.submissions[idx].status = 'submitted';
-    save(); closeModal(); refreshAll();
+    save(); closeModal(); $('modal-inner').style.maxWidth = ''; refreshAll();
   };
 }
 
-function buildErrorFields(){
-  const cnt = parseInt($('err-cnt')?.value)||0;
-  let html = '';
-  for(let i=0;i<cnt;i++){
-    html += `<div style="margin-bottom:10px;padding:8px;background:#f7fafc;border-radius:6px">
-      <div class="f-row" style="margin-bottom:4px">
-        <div class="f-grp"><label>题号</label><input type="number" id="eq-${i}" value="${i+1}" min="1" style="width:65px"></div>
-        <span style="font-size:11px;color:#718096;display:flex;align-items:flex-end">可多选错因：</span>
-      </div>
-      <div class="err-check-grid" id="ecg-${i}">
-        ${ERROR_REASONS.map((r,j) => `<label class="err-check"><input type="checkbox" id="er-${i}-${j}" value="${esc(r)}"><span>${esc(r)}</span></label>`).join('')}
-      </div></div>`;
+function toggleQTile(q, totalQ){
+  const tile = document.getElementById('qt-'+q);
+  if(!tile) return;
+  const wasWrong = tile.classList.contains('wrong');
+  if(wasWrong){
+    tile.classList.remove('wrong');
+    tile.classList.add('ok');
+    // Uncheck all error reasons for this question
+    ERROR_REASONS.forEach(function(r,j){
+      const cb = document.getElementById('er-'+q+'-'+j);
+      if(cb) cb.checked = false;
+    });
+  } else {
+    tile.classList.remove('ok');
+    tile.classList.add('wrong');
   }
-  const el = document.getElementById('err-fields');
-  if(el) el.innerHTML = html;
+  // Rebuild the detail area
+  const area = document.getElementById('err-detail-area');
+  if(area){
+    area.innerHTML = buildErrDetailHTML(getCurrentErrMap(totalQ), totalQ);
+  }
+}
+
+function getCurrentErrMap(totalQ){
+  const map = {};
+  for(let q=1; q<=totalQ; q++){
+    const tile = document.getElementById('qt-'+q);
+    if(tile && tile.classList.contains('wrong')){
+      const reasons = [];
+      ERROR_REASONS.forEach(function(r,j){
+        const cb = document.getElementById('er-'+q+'-'+j);
+        if(cb && cb.checked) reasons.push(r);
+      });
+      map[q] = reasons;
+    }
+  }
+  return map;
+}
+
+function buildErrDetailHTML(errMap, totalQ){
+  const wrongNums = [];
+  for(let q=1; q<=totalQ; q++){
+    if(errMap[q] !== undefined) wrongNums.push(q);
+  }
+  if(wrongNums.length === 0){
+    return '<p style="font-size:12px;color:#a0aec0;text-align:center;padding:12px">点击上方的题号标记错题</p>';
+  }
+  let html = '';
+  wrongNums.forEach(function(q){
+    const existingReasons = errMap[q] || [];
+    html += '<div style="margin-bottom:6px;padding:6px 8px;background:#fff5f5;border-radius:6px;border:1px solid #fed7d7">';
+    html += '<strong style="font-size:12px;color:#c53030">第'+q+'题</strong>';
+    html += '<div class="err-check-grid" style="margin-top:3px">';
+    ERROR_REASONS.forEach(function(r,j){
+      html += '<label class="err-check"><input type="checkbox" id="er-'+q+'-'+j+'" value="'+esc(r)+'" '+(existingReasons.indexOf(r)>=0?'checked':'')+'><span>'+esc(r)+'</span></label>';
+    });
+    html += '</div></div>';
+  });
+  return html;
 }
 
 // ====== STUDENT LIST ======
