@@ -246,6 +246,16 @@
       "createdAt": "2026-05-21T17:12"
     }
   ],
-  "submissions": [],
-  "_modified": 1779383570622
+  "submissions": [
+    {
+      "id": 1779383576471,
+      "studentId": 1779380923083,
+      "assignmentId": 1779383570622,
+      "status": "submitted",
+      "submittedAt": "2026-05-21T17:12",
+      "wrongCount": 0,
+      "errors": []
+    }
+  ],
+  "_modified": 1779383576471
 }
