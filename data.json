@@ -74,6 +74,11 @@
       "id": 1779380798234,
       "name": "可乐",
       "group": "周日SBS 10:40班"
+    },
+    {
+      "id": 1779380802850,
+      "name": "junjun",
+      "group": "周日SBS 10:40班"
     }
   ],
   "assignments": [
@@ -106,5 +111,5 @@
     }
   ],
   "submissions": [],
-  "_modified": 1779380798234
+  "_modified": 1779380802850
 }
