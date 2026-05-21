@@ -228,15 +228,6 @@
       "createdAt": "2026-05-21T16:28"
     },
     {
-      "id": 1779380986251,
-      "title": "第22课sbs 书本 Lesson 17-P157-162",
-      "classGroup": "周日SBS 14:00班",
-      "type": "测试卷",
-      "totalQuestions": 10,
-      "dueDate": "2026-05-28",
-      "createdAt": "2026-05-21T16:29"
-    },
-    {
       "id": 1779381223422,
       "title": "第10课练习卷",
       "classGroup": "周日SBS 15:00班",
@@ -244,34 +235,8 @@
       "totalQuestions": 10,
       "dueDate": "2026-05-28",
       "createdAt": "2026-05-21T16:33"
-    },
-    {
-      "id": 1779383547125,
-      "title": "第22课",
-      "classGroup": "周日SBS 14:00班",
-      "type": "复习作业",
-      "totalQuestions": 100,
-      "dueDate": "2026-05-28",
-      "createdAt": "2026-05-21T17:12"
     }
   ],
-  "submissions": [
-    {
-      "id": 1779381013651,
-      "studentId": 1779380923083,
-      "assignmentId": 1779380986251,
-      "status": "submitted",
-      "submittedAt": "2026-05-21T17:11",
-      "wrongCount": 1,
-      "errors": [
-        {
-          "questionNo": 1,
-          "errorReasons": [
-            "时态错误"
-          ]
-        }
-      ]
-    }
-  ],
-  "_modified": 1779383547125
+  "submissions": [],
+  "_modified": 1779383558289
 }
