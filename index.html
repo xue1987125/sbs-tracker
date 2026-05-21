@@ -320,38 +320,51 @@ async function syncToCloud(tokenOverride, force){
     if(errEl){ errEl.style.display = 'none'; }
 
     const apiUrl = 'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/' + DATA_FILE;
-    // Get current SHA
-    let sha = null;
-    try{
-      const getResp = await fetch(apiUrl, { headers: { 'Authorization': 'token ' + token } });
-      if(getResp.ok){
-        const info = await getResp.json();
-        sha = info.sha;
-      }
-    }catch(e){}
-
     const content = JSON.stringify(data, null, 2);
-    const body = { message: 'sync data', content: btoa(unescape(encodeURIComponent(content))) };
-    if(sha) body.sha = sha;
 
-    const putResp = await fetch(apiUrl, {
-      method: 'PUT',
-      headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
+    // Try up to 3 times, re-fetching SHA each time on conflict
+    let lastErr = null;
+    for(let attempt = 0; attempt < 3; attempt++){
+      // Get current SHA
+      let sha = null;
+      try{
+        const getResp = await fetch(apiUrl, { headers: { 'Authorization': 'token ' + token } });
+        if(getResp.ok){
+          const info = await getResp.json();
+          sha = info.sha;
+        }
+      }catch(e){}
 
-    if(putResp.ok){
-      if(dot) dot.className = 'sync-dot ok';
-      const now = new Date();
-      const timeStr = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0') + ':' + now.getSeconds().toString().padStart(2,'0');
-      if(msg) msg.textContent = '已同步';
-      const timeEl = $('sync-time');
-      if(timeEl) timeEl.textContent = '上次同步：' + timeStr;
-      if(errEl) errEl.style.display = 'none';
-    }else{
-      const errData = await putResp.json().catch(function(){ return {} });
-      throw new Error(errData.message || 'HTTP ' + putResp.status);
+      const body = { message: 'sync data', content: btoa(unescape(encodeURIComponent(content))) };
+      if(sha) body.sha = sha;
+
+      const putResp = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      if(putResp.ok){
+        if(dot) dot.className = 'sync-dot ok';
+        const now = new Date();
+        const timeStr = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0') + ':' + now.getSeconds().toString().padStart(2,'0');
+        if(msg) msg.textContent = '已同步';
+        const timeEl = $('sync-time');
+        if(timeEl) timeEl.textContent = '上次同步：' + timeStr;
+        if(errEl) errEl.style.display = 'none';
+        _syncBusy = false;
+        return;
+      }else if(putResp.status === 409){
+        // SHA conflict — retry after re-fetching SHA
+        lastErr = new Error('冲突重试中...');
+        await new Promise(function(r){ setTimeout(r, 500); });
+        continue;
+      }else{
+        const errData = await putResp.json().catch(function(){ return {} });
+        throw new Error(errData.message || 'HTTP ' + putResp.status);
+      }
     }
+    throw lastErr || new Error('重试失败');
   }catch(e){
     if(dot) dot.className = 'sync-dot err';
     if(msg) msg.textContent = '同步失败';
