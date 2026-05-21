@@ -129,6 +129,10 @@ td.actions{white-space:nowrap}
 .sync-msg{font-size:11px;color:#718096;margin-left:4px}
 .token-row{display:flex;gap:6px;align-items:center}
 .token-row input{flex:1}
+.err-check-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:3px}
+.err-check{display:flex;align-items:center;gap:3px;font-size:11px;cursor:pointer;padding:2px 4px;border-radius:3px;white-space:nowrap}
+.err-check:hover{background:#edf2f7}
+.err-check input[type=checkbox]{width:13px;height:13px;cursor:pointer;accent-color:#2b6cb0}
 </style>
 </head>
 <body>
@@ -590,7 +594,7 @@ function renderErrorTable(){
     const s = gs(sub.studentId);
     const errors = sub.errors || [];
     let errStr = errors.length>0
-      ? errors.map(e => `<span style="display:inline-block;background:#edf2f7;padding:1px 5px;border-radius:3px;font-size:10px;margin:1px">第${e.questionNo}题:${e.errorReason}</span>`).join(' ')
+      ? errors.map(e => `<span style="display:inline-block;background:#edf2f7;padding:1px 5px;border-radius:3px;font-size:10px;margin:1px">第${e.questionNo}题：${esc((e.errorReasons||(e.errorReason?[e.errorReason]:[])).join('、')||'未标注')}</span>`).join(' ')
       : '<span style="color:#a0aec0">--</span>';
     const score = assignment.totalQuestions>0
       ? Math.round((assignment.totalQuestions-(sub.wrongCount||0))/assignment.totalQuestions*100)
@@ -631,12 +635,16 @@ function openErrorModal(sid, aid){
   $('modal-inner').innerHTML = html;
   $('modal').classList.add('on');
   buildErrorFields();
-  setTimeout(() => {
-    existing.forEach((e,i) => {
+  setTimeout(function(){
+    existing.forEach(function(e,i){
       const qEl = document.getElementById('eq-'+i);
-      const rEl = document.getElementById('er-'+i);
       if(qEl) qEl.value = e.questionNo;
-      if(rEl) rEl.value = e.errorReason;
+      // Handle both old format (errorReason string) and new format (errorReasons array)
+      const reasons = e.errorReasons || (e.errorReason ? [e.errorReason] : []);
+      ERROR_REASONS.forEach(function(r,j){
+        const cb = document.getElementById('er-'+i+'-'+j);
+        if(cb) cb.checked = reasons.indexOf(r) >= 0;
+      });
     });
   }, 30);
 
@@ -644,9 +652,14 @@ function openErrorModal(sid, aid){
     const cnt = parseInt($('err-cnt').value)||0;
     const errors = [];
     for(let i=0;i<cnt;i++){
+      const reasons = [];
+      ERROR_REASONS.forEach(function(r,j){
+        const cb = document.getElementById('er-'+i+'-'+j);
+        if(cb && cb.checked) reasons.push(r);
+      });
       errors.push({
         questionNo: parseInt(document.getElementById('eq-'+i)?.value)||(i+1),
-        errorReason: document.getElementById('er-'+i)?.value||ERROR_REASONS[0]
+        errorReasons: reasons
       });
     }
     let idx = data.submissions.findIndex(r=>r.studentId===sid && r.assignmentId===aid);
@@ -662,9 +675,14 @@ function buildErrorFields(){
   const cnt = parseInt($('err-cnt')?.value)||0;
   let html = '';
   for(let i=0;i<cnt;i++){
-    html += `<div class="f-row" style="margin-bottom:5px">
-      <div class="f-grp"><label>题号</label><input type="number" id="eq-${i}" value="${i+1}" min="1" style="width:65px"></div>
-      <div class="f-grp" style="flex:1"><label>错因</label><select id="er-${i}">${ERROR_REASONS.map(r=>`<option value="${r}">${r}</option>`).join('')}</select></div></div>`;
+    html += `<div style="margin-bottom:10px;padding:8px;background:#f7fafc;border-radius:6px">
+      <div class="f-row" style="margin-bottom:4px">
+        <div class="f-grp"><label>题号</label><input type="number" id="eq-${i}" value="${i+1}" min="1" style="width:65px"></div>
+        <span style="font-size:11px;color:#718096;display:flex;align-items:flex-end">可多选错因：</span>
+      </div>
+      <div class="err-check-grid" id="ecg-${i}">
+        ${ERROR_REASONS.map((r,j) => `<label class="err-check"><input type="checkbox" id="er-${i}-${j}" value="${esc(r)}"><span>${esc(r)}</span></label>`).join('')}
+      </div></div>`;
   }
   const el = document.getElementById('err-fields');
   if(el) el.innerHTML = html;
