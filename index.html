@@ -212,6 +212,7 @@ function esc(s){ const d=document.createElement('div'); d.textContent=s||''; ret
 function gs(id){ return data.students.find(s=>s.id===id) }
 function ga(id){ return data.assignments.find(a=>a.id===id) }
 function studentsInClass(cls){ return cls ? data.students.filter(s=>s.group===cls) : data.students }
+function assignmentsInClass(cls){ return cls ? data.assignments.filter(a=>(a.classGroup||'')===cls) : data.assignments }
 
 // ====== CLASS TABS ======
 function buildClassTabs(){
@@ -257,12 +258,13 @@ function refreshAll(){
 // ====== STATS ======
 function renderStats(){
   const students = studentsInClass(currentClass);
+  const assignments = assignmentsInClass(currentClass);
   const totalS = students.length;
 
   let counts = {};
   ASSIGN_TYPES.forEach(t => { counts[t] = {done:0, miss:0, wrong:0} });
 
-  data.assignments.forEach(a => {
+  assignments.forEach(a => {
     const type = a.type || '测试卷';
     students.forEach(s => {
       const sub = data.submissions.find(r=>r.studentId===s.id && r.assignmentId===a.id);
@@ -287,7 +289,7 @@ function renderStats(){
 
   // Per-type breakdown
   ASSIGN_TYPES.forEach(t => {
-    if(data.assignments.some(a=>(a.type||'测试卷')===t)){
+    if(assignments.some(a=>(a.type||'测试卷')===t)){
       const c = counts[t];
       const trate = (c.done+c.miss)>0 ? Math.round(c.done/(c.done+c.miss)*100) : 0;
       html += `<div class="stat-item p"><div class="num">${trate}%</div><div class="lbl">${t}完成率</div></div>`;
@@ -303,8 +305,8 @@ function renderQuickSubmit(){
   const sel = $('qs-assignment');
   const prev = sel.value;
 
-  // Build assignment options, filtered by type
-  let filtered = data.assignments;
+  // Filter by class AND type
+  let filtered = assignmentsInClass(currentClass);
   if(typeFilter) filtered = filtered.filter(a=>(a.type||'测试卷')===typeFilter);
 
   sel.innerHTML = '<option value="">-- 选择作业 --</option>' +
@@ -486,7 +488,8 @@ function renderStudentList(){
   if(students.length===0){ $('student-list').innerHTML='<div class="empty">暂无学生</div>'; return; }
   let html = '<table><thead><tr><th>姓名</th><th>班级</th><th>完成率</th><th>错题</th><th>操作</th></tr></thead><tbody>';
   students.forEach(s => {
-    const allSubs = data.submissions.filter(r=>r.studentId===s.id);
+    const classAssignIds = new Set(assignmentsInClass(currentClass).map(a=>a.id));
+    const allSubs = data.submissions.filter(r=>r.studentId===s.id && classAssignIds.has(r.assignmentId));
     const doneSubs = allSubs.filter(r=>r.status==='submitted');
     const totalWrong = allSubs.reduce((sum,r)=>sum+(r.wrongCount||0),0);
     const completeRate = allSubs.length>0 ? Math.round(doneSubs.length/allSubs.length*100) : '-';
@@ -543,10 +546,11 @@ function deleteStudent(id){
 
 // ====== ASSIGNMENT LIST ======
 function renderAssignmentList(){
-  if(data.assignments.length===0){ $('assignment-list').innerHTML='<div class="empty">暂无作业</div>'; return; }
+  const assignments = assignmentsInClass(currentClass);
+  if(assignments.length===0){ $('assignment-list').innerHTML='<div class="empty">暂无作业</div>'; return; }
   const students = studentsInClass(currentClass);
   let html = '<table><thead><tr><th>标题</th><th>类型</th><th>截止</th><th>完成率</th><th>操作</th></tr></thead><tbody>';
-  data.assignments.slice().reverse().forEach(a => {
+  assignments.slice().reverse().forEach(a => {
     let done=0;
     students.forEach(s=>{ const sub=data.submissions.find(r=>r.studentId===s.id&&r.assignmentId===a.id); if(sub&&sub.status==='submitted') done++; });
     const pct=students.length>0?Math.round(done/students.length*100):0;
@@ -564,10 +568,14 @@ function renderAssignmentList(){
 }
 
 function openAddAssignment(){
+  const clsSelect = currentClass
+    ? `<input type="hidden" id="asg-class" value="${esc(currentClass)}"><span style="font-size:12px;color:#718096;display:flex;align-items:flex-end">班级：<strong>${esc(currentClass)}</strong></span>`
+    : `<select id="asg-class">${CLASS_NAMES.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('')}</select>`;
   $('modal-inner').innerHTML = `
     <h3 style="margin-bottom:10px">布置新作业</h3>
     <div class="f-row"><div class="f-grp" style="flex:1"><label>作业标题 *</label><input id="asg-title" placeholder="如：Unit 5 测试卷"></div></div>
     <div class="f-row">
+      <div class="f-grp"><label>班级</label>${clsSelect}</div>
       <div class="f-grp"><label>类型 *</label><select id="asg-type">${ASSIGN_TYPES.map(t=>`<option value="${t}">${t}</option>`).join('')}</select></div>
       <div class="f-grp"><label>总题数</label><input type="number" id="asg-total" value="10" min="1" style="width:80px"></div>
       <div class="f-grp"><label>截止日期</label><input type="date" id="asg-due"></div></div>
@@ -579,7 +587,8 @@ function openAddAssignment(){
   $('sv-asg').onclick=function(){
     const title=$('asg-title').value.trim();
     if(!title){ alert('请输入作业标题'); return; }
-    data.assignments.push({ id:Date.now(), title, type:$('asg-type').value, totalQuestions:parseInt($('asg-total').value)||10, dueDate:$('asg-due').value, createdAt:ts() });
+    const cls = currentClass || $('asg-class').value;
+    data.assignments.push({ id:Date.now(), title, classGroup:cls, type:$('asg-type').value, totalQuestions:parseInt($('asg-total').value)||10, dueDate:$('asg-due').value, createdAt:ts() });
     save(); closeModal(); refreshAll();
   };
 }
@@ -590,6 +599,7 @@ function openEditAssignment(id){
     <h3 style="margin-bottom:10px">编辑作业</h3>
     <div class="f-row"><div class="f-grp" style="flex:1"><label>作业标题</label><input id="asg-title" value="${esc(a.title)}"></div></div>
     <div class="f-row">
+      <div class="f-grp"><label>班级</label><select id="asg-class">${CLASS_NAMES.map(c=>`<option value="${esc(c)}" ${(a.classGroup||'')===c?'selected':''}>${esc(c)}</option>`).join('')}</select></div>
       <div class="f-grp"><label>类型</label><select id="asg-type">${ASSIGN_TYPES.map(t=>`<option value="${t}" ${(a.type||'测试卷')===t?'selected':''}>${t}</option>`).join('')}</select></div>
       <div class="f-grp"><label>总题数</label><input type="number" id="asg-total" value="${a.totalQuestions}" min="1" style="width:80px"></div>
       <div class="f-grp"><label>截止日期</label><input type="date" id="asg-due" value="${a.dueDate||''}"></div></div>
@@ -597,7 +607,7 @@ function openEditAssignment(id){
       <button class="btn btn-o" onclick="closeModal()">取消</button>
       <button class="btn btn-p" id="sv-asg">保存</button></div>`;
   $('modal').classList.add('on');
-  $('sv-asg').onclick=function(){ a.title=$('asg-title').value.trim(); a.type=$('asg-type').value; a.totalQuestions=parseInt($('asg-total').value)||10; a.dueDate=$('asg-due').value; save(); closeModal(); refreshAll(); };
+  $('sv-asg').onclick=function(){ a.title=$('asg-title').value.trim(); a.classGroup=$('asg-class').value; a.type=$('asg-type').value; a.totalQuestions=parseInt($('asg-total').value)||10; a.dueDate=$('asg-due').value; save(); closeModal(); refreshAll(); };
 }
 
 function deleteAssignment(id){
