@@ -219,9 +219,14 @@
       "assignmentId": 1779380986251,
       "status": "submitted",
       "submittedAt": "2026-05-21T16:30",
-      "wrongCount": 0,
-      "errors": []
+      "wrongCount": 1,
+      "errors": [
+        {
+          "questionNo": 2,
+          "errorReason": "粗心大意"
+        }
+      ]
     }
   ],
-  "_modified": 1779381013652
+  "_modified": 1779381033968
 }
