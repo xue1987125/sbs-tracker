@@ -94,6 +94,11 @@
       "id": 1779380823367,
       "name": "fifi",
       "group": "周日SBS 10:40班"
+    },
+    {
+      "id": 1779380833784,
+      "name": "Chris",
+      "group": "周日SBS 13:00班"
     }
   ],
   "assignments": [
@@ -126,5 +131,5 @@
     }
   ],
   "submissions": [],
-  "_modified": 1779380823367
+  "_modified": 1779380833784
 }
