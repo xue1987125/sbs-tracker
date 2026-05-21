@@ -124,6 +124,11 @@
       "id": 1779380915983,
       "name": "linda",
       "group": "周日SBS 14:00班"
+    },
+    {
+      "id": 1779380923083,
+      "name": "Vivian",
+      "group": "周日SBS 14:00班"
     }
   ],
   "assignments": [
@@ -174,5 +179,5 @@
     }
   ],
   "submissions": [],
-  "_modified": 1779380915983
+  "_modified": 1779380923083
 }
