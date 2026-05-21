@@ -118,6 +118,17 @@ td.actions{white-space:nowrap}
   .check-grid{grid-template-columns:repeat(2,1fr)}
   .stats-bar{grid-template-columns:repeat(3,1fr)}
 }
+
+/* Cloud sync */
+.sync-card{border:1px solid #e2e8f0;background:#fffbeb}
+.sync-card.configured{border-color:#c6f6d5;background:#f0fff4}
+.sync-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.sync-dot.ok{background:#38a169}
+.sync-dot.err{background:#e53e3e}
+.sync-dot.idle{background:#a0aec0}
+.sync-msg{font-size:11px;color:#718096;margin-left:4px}
+.token-row{display:flex;gap:6px;align-items:center}
+.token-row input{flex:1}
 </style>
 </head>
 <body>
@@ -169,6 +180,28 @@ td.actions{white-space:nowrap}
       <div id="assignment-list"></div>
     </div>
   </div>
+
+  <!-- Cloud Sync -->
+  <div class="card sync-card" id="sync-card">
+    <h3>云端同步 <span class="sync-dot idle" id="sync-dot"></span><span class="sync-msg" id="sync-msg">未配置</span></h3>
+    <div id="sync-body">
+      <p style="font-size:12px;color:#718096;margin-bottom:8px">配置后可让电脑和手机的数据自动同步，所有设备共享一份数据。</p>
+      <div id="sync-setup">
+        <p style="font-size:12px;margin-bottom:4px"><strong>第1步：</strong> <a href="https://github.com/settings/tokens" target="_blank" style="color:#2b6cb0">点这里创建 GitHub Token</a> → 点 "Generate new token (classic)" → Note 填 "sbs-tracker" → 勾选 <code>public_repo</code> → 点底部 Generate → 复制生成的 token</p>
+        <p style="font-size:12px;margin-bottom:8px"><strong>第2步：</strong> 把 token 粘贴到下面，点保存</p>
+        <div class="token-row">
+          <input type="password" id="sync-token" placeholder="粘贴 GitHub Token..." style="font-size:12px;padding:5px 8px;border:1px solid #e2e8f0;border-radius:4px">
+          <button class="btn btn-sm btn-p" onclick="saveToken()">保存并同步</button>
+        </div>
+      </div>
+      <div id="sync-active" style="display:none">
+        <button class="btn btn-sm btn-p" onclick="syncNow()">立即同步</button>
+        <button class="btn btn-sm btn-o" onclick="resetToken()">取消同步</button>
+        <span style="font-size:11px;color:#a0aec0" id="sync-time"></span>
+      </div>
+      <div id="sync-err" style="display:none;color:#e53e3e;font-size:11px;margin-top:6px"></div>
+    </div>
+  </div>
 </main>
 
 <div class="modal" id="modal"><div class="modal-inner" id="modal-inner"></div></div>
@@ -190,11 +223,22 @@ const ERROR_REASONS = [
 ];
 
 const KEY = 'sbs_tracker_v3';
+const SYNC_TOKEN_KEY = 'sbs_sync_token';
+const REPO_OWNER = 'xue1987125';
+const REPO_NAME = 'sbs-tracker';
+const DATA_FILE = 'data.json';
+
 let data = { students:[], assignments:[], submissions:[] };
 let currentClass = '';
-let typeFilter = ''; // current type filter
+let typeFilter = '';
+let _syncBusy = false;
 
-function save(){ localStorage.setItem(KEY, JSON.stringify(data)) }
+function save(){
+  data._modified = Date.now();
+  localStorage.setItem(KEY, JSON.stringify(data));
+  scheduleCloudSync();
+}
+
 function load(){
   const r = localStorage.getItem(KEY);
   if(r){
@@ -203,6 +247,137 @@ function load(){
     if(!data.assignments) data.assignments = [];
     if(!data.submissions) data.submissions = [];
   }
+}
+
+let _syncTimer = null;
+function scheduleCloudSync(){
+  if(_syncTimer) clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(function(){ syncToCloud(); }, 1500);
+}
+
+// ====== CLOUD SYNC ======
+function getToken(){ return localStorage.getItem(SYNC_TOKEN_KEY) }
+
+function updateSyncUI(){
+  const token = getToken();
+  const dot = $('sync-dot');
+  const msg = $('sync-msg');
+  const setup = $('sync-setup');
+  const active = $('sync-active');
+  const card = $('sync-card');
+  if(token){
+    if(setup) setup.style.display = 'none';
+    if(active) active.style.display = 'block';
+    if(card) card.classList.add('configured');
+  } else {
+    if(setup) setup.style.display = 'block';
+    if(active) active.style.display = 'none';
+    if(card) card.classList.remove('configured');
+    if(dot){ dot.className = 'sync-dot idle'; }
+    if(msg){ msg.textContent = '未配置'; }
+  }
+}
+
+function syncNow(){
+  const token = getToken();
+  if(!token){ alert('请先在下方设置 GitHub Token'); return; }
+  syncToCloud(token, true);
+}
+
+function saveToken(){
+  const token = $('sync-token').value.trim();
+  if(!token){ alert('请输入 Token'); return; }
+  if(!token.startsWith('ghp_') && !token.startsWith('github_pat_')){
+    alert('Token 格式看起来不对，GitHub token 通常以 ghp_ 或 github_pat_ 开头。');
+    return;
+  }
+  localStorage.setItem(SYNC_TOKEN_KEY, token);
+  $('sync-token').value = '';
+  updateSyncUI();
+  // Push local data to cloud immediately
+  data._modified = Date.now();
+  localStorage.setItem(KEY, JSON.stringify(data));
+  syncToCloud(token, true);
+}
+
+function resetToken(){
+  if(!confirm('取消云端同步？数据会保留在本地，但不再自动同步到云端。')) return;
+  localStorage.removeItem(SYNC_TOKEN_KEY);
+  updateSyncUI();
+}
+
+async function syncToCloud(tokenOverride, force){
+  if(_syncBusy && !force) return;
+  const token = tokenOverride || getToken();
+  if(!token) return;
+  _syncBusy = true;
+  const dot = $('sync-dot');
+  const msg = $('sync-msg');
+  const errEl = $('sync-err');
+  try{
+    if(dot){ dot.className = 'sync-dot idle'; }
+    if(msg){ msg.textContent = '同步中...'; }
+    if(errEl){ errEl.style.display = 'none'; }
+
+    const apiUrl = 'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/' + DATA_FILE;
+    // Get current SHA
+    let sha = null;
+    try{
+      const getResp = await fetch(apiUrl, { headers: { 'Authorization': 'token ' + token } });
+      if(getResp.ok){
+        const info = await getResp.json();
+        sha = info.sha;
+      }
+    }catch(e){}
+
+    const content = JSON.stringify(data, null, 2);
+    const body = { message: 'sync data', content: btoa(unescape(encodeURIComponent(content))) };
+    if(sha) body.sha = sha;
+
+    const putResp = await fetch(apiUrl, {
+      method: 'PUT',
+      headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    if(putResp.ok){
+      if(dot) dot.className = 'sync-dot ok';
+      const now = new Date();
+      const timeStr = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0') + ':' + now.getSeconds().toString().padStart(2,'0');
+      if(msg) msg.textContent = '已同步';
+      const timeEl = $('sync-time');
+      if(timeEl) timeEl.textContent = '上次同步：' + timeStr;
+      if(errEl) errEl.style.display = 'none';
+    }else{
+      const errData = await putResp.json().catch(function(){ return {} });
+      throw new Error(errData.message || 'HTTP ' + putResp.status);
+    }
+  }catch(e){
+    if(dot) dot.className = 'sync-dot err';
+    if(msg) msg.textContent = '同步失败';
+    if(errEl){ errEl.style.display = 'block'; errEl.textContent = '错误：' + e.message; }
+  }
+  _syncBusy = false;
+}
+
+async function syncFromCloud(){
+  const dataUrl = 'https://' + REPO_OWNER + '.github.io/' + REPO_NAME + '/' + DATA_FILE;
+  try{
+    const resp = await fetch(dataUrl);
+    if(!resp.ok) return false;
+    const cloudData = await resp.json();
+    if(!cloudData || !cloudData.students) return false;
+    const cloudTime = cloudData._modified || 0;
+    const localTime = data._modified || 0;
+    if(cloudTime > localTime){
+      if(confirm('云端有更新的数据（' + new Date(cloudTime).toLocaleString() + '），是否同步到本地？\n\n当前本地数据：' + new Date(localTime).toLocaleString() + '\n\n选"确定"用云端数据覆盖本地，选"取消"保留本地数据。')){
+        data = cloudData;
+        localStorage.setItem(KEY, JSON.stringify(data));
+        return true;
+      }
+    }
+  }catch(e){}
+  return false;
 }
 
 function $(id){ return document.getElementById(id) }
@@ -701,7 +876,12 @@ function importDataPrompt(){
 // ====== INIT ======
 load();
 buildClassTabs();
+updateSyncUI();
 refreshAll();
+// Check cloud for newer data on startup
+syncFromCloud().then(function(didSync){
+  if(didSync){ refreshAll(); buildClassTabs(); }
+});
 </script>
 </body>
 </html>
