@@ -152,12 +152,24 @@ td.actions{white-space:nowrap}
   </div>
 </header>
 
-<div class="class-tabs" id="class-tabs">
-  <button class="class-tab active" data-class="">全部班级</button>
+<div style="background:#fff;border-bottom:2px solid #e2e8f0;padding:8px 12px;display:flex;align-items:center;gap:8px">
+  <span style="font-size:12px;color:#4a5568;font-weight:600;white-space:nowrap">班级：</span>
+  <select id="class-sel" style="font-size:13px;padding:6px 10px;border:1px solid #e2e8f0;border-radius:5px;flex:1;max-width:260px" onchange="onClassChange()">
+    <option value="">全部班级</option>
+  </select>
 </div>
 
 <main>
-  <!-- Stats -->
+  <!-- Period & Stats -->
+  <div style="display:flex;justify-content:flex-end;margin-bottom:6px">
+    <select id="period-sel" style="font-size:12px;padding:4px 8px;border:1px solid #e2e8f0;border-radius:4px" onchange="onPeriodChange()">
+      <option value="all">全部时间</option>
+      <option value="thisWeek">本周</option>
+      <option value="lastWeek">上周</option>
+      <option value="thisMonth">本月</option>
+      <option value="lastMonth">上月</option>
+    </select>
+  </div>
   <div class="stats-bar" id="stats-bar"></div>
 
   <!-- Quick submit area - main working area -->
@@ -219,7 +231,8 @@ td.actions{white-space:nowrap}
 <script>
 const CLASS_NAMES = [
   '周六SBS 15:00班','周六SBS 16:40班','周日SBS 10:40班',
-  '周日SBS 13:00班','周日SBS 14:00班','周日SBS 15:00班'
+  '周日SBS 13:00班','周日SBS 14:00班','周日SBS 15:00班',
+  'K3 周六10:40-1','K3 周六9:00-1','K3 周日10:40-1'
 ];
 
 const ASSIGN_TYPES = ['复习作业','测试卷','习题','练习册'];
@@ -241,6 +254,7 @@ const DATA_FILE = 'data.json';
 let data = { students:[], assignments:[], submissions:[] };
 let currentClass = '';
 let typeFilter = '';
+let periodFilter = 'all';
 let _syncBusy = false;
 
 function save(){
@@ -412,22 +426,44 @@ function ga(id){ return data.assignments.find(a=>a.id===id) }
 function studentsInClass(cls){ return cls ? data.students.filter(s=>s.group===cls) : data.students }
 function assignmentsInClass(cls){ return cls ? data.assignments.filter(a=>(a.classGroup||'')===cls) : data.assignments }
 
-// ====== CLASS TABS ======
+function filterByPeriod(assignments){
+  if(periodFilter === 'all') return assignments;
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  let start, end;
+  if(periodFilter === 'thisWeek'){
+    const dow = today.getDay() || 7; // Mon=1, Sun=7
+    start = new Date(today); start.setDate(today.getDate() - dow + 1);
+    end = new Date(start); end.setDate(start.getDate() + 7);
+  }else if(periodFilter === 'lastWeek'){
+    const dow = today.getDay() || 7;
+    end = new Date(today); end.setDate(today.getDate() - dow + 1);
+    start = new Date(end); start.setDate(end.getDate() - 7);
+  }else if(periodFilter === 'thisMonth'){
+    start = new Date(now.getFullYear(), now.getMonth(), 1);
+    end = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  }else if(periodFilter === 'lastMonth'){
+    start = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    end = new Date(now.getFullYear(), now.getMonth(), 1);
+  }else{ return assignments; }
+  return assignments.filter(function(a){
+    if(!a.dueDate) return false;
+    const d = new Date(a.dueDate);
+    return d >= start && d < end;
+  });
+}
+
+// ====== CLASS SELECTOR ======
 function buildClassTabs(){
-  const container = $('class-tabs');
-  let html = '<button class="class-tab '+(currentClass===''?'active':'')+'" data-class="">全部班级</button>';
-  CLASS_NAMES.forEach(cn => {
-    html += `<button class="class-tab ${currentClass===cn?'active':''}" data-class="${esc(cn)}">${esc(cn)}</button>`;
-  });
-  container.innerHTML = html;
-  container.querySelectorAll('.class-tab').forEach(btn => {
-    btn.addEventListener('click', function(){
-      currentClass = this.dataset.class;
-      container.querySelectorAll('.class-tab').forEach(b=>b.classList.remove('active'));
-      this.classList.add('active');
-      refreshAll();
-    });
-  });
+  const sel = $('class-sel');
+  if(!sel) return;
+  sel.innerHTML = '<option value="">全部班级</option>' +
+    CLASS_NAMES.map(function(c){ return '<option value="'+esc(c)+'"'+(currentClass===c?' selected':'')+'>'+esc(c)+'</option>'; }).join('');
+}
+
+function onClassChange(){
+  currentClass = $('class-sel').value;
+  refreshAll();
 }
 
 // ====== TYPE FILTER CHIPS in the submission area ======
@@ -436,6 +472,11 @@ function renderTypeFilter(){
   sel.innerHTML = '<option value="">全部类型</option>' +
     ASSIGN_TYPES.map(t => `<option value="${t}">${t}</option>`).join('');
   sel.value = typeFilter;
+}
+
+function onPeriodChange(){
+  periodFilter = $('period-sel').value;
+  refreshAll();
 }
 
 function onTypeFilterChange(){
@@ -456,7 +497,7 @@ function refreshAll(){
 // ====== STATS ======
 function renderStats(){
   const students = studentsInClass(currentClass);
-  const assignments = assignmentsInClass(currentClass);
+  const assignments = filterByPeriod(assignmentsInClass(currentClass));
   const totalS = students.length;
 
   let counts = {};
@@ -503,8 +544,8 @@ function renderQuickSubmit(){
   const sel = $('qs-assignment');
   const prev = sel.value;
 
-  // Filter by class AND type
-  let filtered = assignmentsInClass(currentClass);
+  // Filter by class AND type AND period
+  let filtered = filterByPeriod(assignmentsInClass(currentClass));
   if(typeFilter) filtered = filtered.filter(a=>(a.type||'测试卷')===typeFilter);
 
   sel.innerHTML = '<option value="">-- 选择作业 --</option>' +
@@ -766,7 +807,7 @@ function renderStudentList(){
   if(students.length===0){ $('student-list').innerHTML='<div class="empty">暂无学生</div>'; return; }
   let html = '<table><thead><tr><th>姓名</th><th>班级</th><th>完成率</th><th>错题</th><th>操作</th></tr></thead><tbody>';
   students.forEach(s => {
-    const classAssignIds = new Set(assignmentsInClass(currentClass).map(a=>a.id));
+    const classAssignIds = new Set(filterByPeriod(assignmentsInClass(currentClass)).map(a=>a.id));
     const allSubs = data.submissions.filter(r=>r.studentId===s.id && classAssignIds.has(r.assignmentId));
     const doneSubs = allSubs.filter(r=>r.status==='submitted');
     const totalWrong = allSubs.reduce((sum,r)=>sum+(r.wrongCount||0),0);
@@ -824,7 +865,7 @@ function deleteStudent(id){
 
 // ====== ASSIGNMENT LIST ======
 function renderAssignmentList(){
-  const assignments = assignmentsInClass(currentClass);
+  const assignments = filterByPeriod(assignmentsInClass(currentClass));
   if(assignments.length===0){ $('assignment-list').innerHTML='<div class="empty">暂无作业</div>'; return; }
   const students = studentsInClass(currentClass);
   let html = '<table><thead><tr><th>标题</th><th>类型</th><th>截止</th><th>完成率</th><th>操作</th></tr></thead><tbody>';
