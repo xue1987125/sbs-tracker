@@ -294,7 +294,7 @@
       "title": "第10课练习卷",
       "classGroup": "周日SBS 15:00班",
       "type": "测试卷",
-      "totalQuestions": 50,
+      "totalQuestions": 10,
       "dueDate": "2026-05-28",
       "createdAt": "2026-05-21T16:33"
     },
@@ -378,70 +378,9 @@
       "studentId": 1779381164649,
       "assignmentId": 1779381223422,
       "status": "submitted",
-      "submittedAt": "2026-05-23T03:50",
-      "wrongCount": 10,
-      "errors": [
-        {
-          "questionNo": 1,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 2,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 3,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 4,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 5,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 6,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 7,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 8,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 9,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 10,
-          "errorReasons": [
-            "时态错误"
-          ]
-        }
-      ]
+      "submittedAt": "2026-05-22T07:50",
+      "wrongCount": 0,
+      "errors": []
     },
     {
       "id": 1779460132821,
@@ -705,5 +644,5 @@
       "errors": []
     }
   ],
-  "_modified": 1779508293297
+  "_modified": 1779507709426
 }
