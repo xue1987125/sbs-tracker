@@ -269,7 +269,7 @@
       "title": "第11课test",
       "classGroup": "周六SBS 15:00班",
       "type": "测试卷",
-      "totalQuestions": 2,
+      "totalQuestions": 40,
       "dueDate": "2026-05-23",
       "createdAt": "2026-05-23T01:52"
     }
@@ -386,7 +386,7 @@
       "assignmentId": 1779501147978,
       "status": "submitted",
       "submittedAt": "2026-05-23T01:53",
-      "wrongCount": 1,
+      "wrongCount": 6,
       "errors": [
         {
           "questionNo": 1,
@@ -394,9 +394,40 @@
             "拼写错误",
             "阅读理解错误"
           ]
+        },
+        {
+          "questionNo": 2,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        },
+        {
+          "questionNo": 3,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        },
+        {
+          "questionNo": 4,
+          "errorReasons": [
+            "拼写错误",
+            "阅读理解错误"
+          ]
+        },
+        {
+          "questionNo": 5,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        },
+        {
+          "questionNo": 6,
+          "errorReasons": [
+            "拼写错误"
+          ]
         }
       ]
     }
   ],
-  "_modified": 1779501256396
+  "_modified": 1779501292550
 }
