@@ -189,76 +189,6 @@
       "id": 1779498154986,
       "name": "chloe",
       "group": "K3 周六9:00-1"
-    },
-    {
-      "id": 1779504333551,
-      "name": "sia",
-      "group": "K3 周六9:00-1"
-    },
-    {
-      "id": 1779504348743,
-      "name": "midou",
-      "group": "K3 周六9:00-1"
-    },
-    {
-      "id": 1779504380336,
-      "name": "rex",
-      "group": "K3 周六9:00-1"
-    },
-    {
-      "id": 1779504452224,
-      "name": "aiden",
-      "group": "K3 周六9:00-1"
-    },
-    {
-      "id": 1779504463072,
-      "name": "happy",
-      "group": "K3 周六9:00-1"
-    },
-    {
-      "id": 1779505181502,
-      "name": "rex",
-      "group": "K3 周六10:40-1"
-    },
-    {
-      "id": 1779505191265,
-      "name": "anson",
-      "group": "K3 周六10:40-1"
-    },
-    {
-      "id": 1779505198079,
-      "name": "angelazhao",
-      "group": "K3 周六10:40-1"
-    },
-    {
-      "id": 1779505202743,
-      "name": "elsa",
-      "group": "K3 周六10:40-1"
-    },
-    {
-      "id": 1779505210372,
-      "name": "oscar",
-      "group": "K3 周六10:40-1"
-    },
-    {
-      "id": 1779505215325,
-      "name": "hannah",
-      "group": "K3 周六10:40-1"
-    },
-    {
-      "id": 1779505225907,
-      "name": "tongtong",
-      "group": "K3 周六10:40-1"
-    },
-    {
-      "id": 1779505863724,
-      "name": "cedric",
-      "group": "K3 周六10:40-1"
-    },
-    {
-      "id": 1779507709426,
-      "name": "11",
-      "group": "K3 周六10:40-1"
     }
   ],
   "assignments": [
@@ -294,7 +224,7 @@
       "title": "第10课练习卷",
       "classGroup": "周日SBS 15:00班",
       "type": "测试卷",
-      "totalQuestions": 50,
+      "totalQuestions": 10,
       "dueDate": "2026-05-28",
       "createdAt": "2026-05-21T16:33"
     },
@@ -317,12 +247,21 @@
       "createdAt": "2026-05-22T14:28"
     },
     {
+      "id": 1779498150851,
+      "title": "happy",
+      "classGroup": "K3 周六9:00-1",
+      "type": "复习作业",
+      "totalQuestions": 0,
+      "dueDate": "2026-05-30",
+      "createdAt": "2026-05-23T01:02"
+    },
+    {
       "id": 1779498171595,
-      "title": "ng 作业",
+      "title": "chloe",
       "classGroup": "K3 周六9:00-1",
       "type": "测试卷",
-      "totalQuestions": 10,
-      "dueDate": "2026-05-23",
+      "totalQuestions": 0,
+      "dueDate": "2026-05-30",
       "createdAt": "2026-05-23T01:02"
     },
     {
@@ -330,18 +269,9 @@
       "title": "第11课test",
       "classGroup": "周六SBS 15:00班",
       "type": "测试卷",
-      "totalQuestions": 40,
-      "dueDate": "2026-05-23",
-      "createdAt": "2026-05-23T01:52"
-    },
-    {
-      "id": 1779504506916,
-      "title": "oioy作业",
-      "classGroup": "K3 周六10:40-1",
-      "type": "复习作业",
       "totalQuestions": 0,
       "dueDate": "2026-05-23",
-      "createdAt": "2026-05-23T02:48"
+      "createdAt": "2026-05-23T01:52"
     }
   ],
   "submissions": [
@@ -378,70 +308,9 @@
       "studentId": 1779381164649,
       "assignmentId": 1779381223422,
       "status": "submitted",
-      "submittedAt": "2026-05-23T03:50",
-      "wrongCount": 10,
-      "errors": [
-        {
-          "questionNo": 1,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 2,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 3,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 4,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 5,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 6,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 7,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 8,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 9,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 10,
-          "errorReasons": [
-            "时态错误"
-          ]
-        }
-      ]
+      "submittedAt": "2026-05-22T07:50",
+      "wrongCount": 0,
+      "errors": []
     },
     {
       "id": 1779460132821,
@@ -510,200 +379,7 @@
       "submittedAt": "2026-05-23T01:43",
       "wrongCount": 0,
       "errors": []
-    },
-    {
-      "id": 1779501234576,
-      "studentId": 1779375004013,
-      "assignmentId": 1779501147978,
-      "status": "submitted",
-      "submittedAt": "2026-05-23T01:53",
-      "wrongCount": 6,
-      "errors": [
-        {
-          "questionNo": 1,
-          "errorReasons": [
-            "拼写错误",
-            "阅读理解错误"
-          ]
-        },
-        {
-          "questionNo": 2,
-          "errorReasons": [
-            "拼写错误"
-          ]
-        },
-        {
-          "questionNo": 3,
-          "errorReasons": [
-            "拼写错误"
-          ]
-        },
-        {
-          "questionNo": 4,
-          "errorReasons": [
-            "拼写错误",
-            "阅读理解错误"
-          ]
-        },
-        {
-          "questionNo": 5,
-          "errorReasons": [
-            "拼写错误"
-          ]
-        },
-        {
-          "questionNo": 6,
-          "errorReasons": [
-            "拼写错误"
-          ]
-        }
-      ]
-    },
-    {
-      "id": 1779501302642,
-      "studentId": 1779374998946,
-      "assignmentId": 1779501147978,
-      "status": "submitted",
-      "submittedAt": "2026-05-23T01:55",
-      "wrongCount": 6,
-      "errors": [
-        {
-          "questionNo": 1,
-          "errorReasons": [
-            "拼写错误"
-          ]
-        },
-        {
-          "questionNo": 2,
-          "errorReasons": [
-            "拼写错误"
-          ]
-        },
-        {
-          "questionNo": 3,
-          "errorReasons": [
-            "拼写错误"
-          ]
-        },
-        {
-          "questionNo": 4,
-          "errorReasons": [
-            "拼写错误"
-          ]
-        },
-        {
-          "questionNo": 5,
-          "errorReasons": [
-            "拼写错误"
-          ]
-        },
-        {
-          "questionNo": 6,
-          "errorReasons": [
-            "时态错误"
-          ]
-        }
-      ]
-    },
-    {
-      "id": 1779504320366,
-      "studentId": 1779498145870,
-      "assignmentId": 1779498171595,
-      "status": "submitted",
-      "submittedAt": "2026-05-23T02:45",
-      "wrongCount": 0,
-      "errors": []
-    },
-    {
-      "id": 1779504320928,
-      "studentId": 1779498154986,
-      "assignmentId": 1779498171595,
-      "status": "submitted",
-      "submittedAt": "2026-05-23T02:45",
-      "wrongCount": 0,
-      "errors": []
-    },
-    {
-      "id": 1779504334764,
-      "studentId": 1779504333551,
-      "assignmentId": 1779498171595,
-      "status": "submitted",
-      "submittedAt": "2026-05-23T02:45",
-      "wrongCount": 0,
-      "errors": []
-    },
-    {
-      "id": 1779504465553,
-      "studentId": 1779504463072,
-      "assignmentId": 1779498171595,
-      "status": "submitted",
-      "submittedAt": "2026-05-23T02:47",
-      "wrongCount": 0,
-      "errors": []
-    },
-    {
-      "id": 1779505326106,
-      "studentId": 1779505181502,
-      "assignmentId": 1779504506916,
-      "status": "submitted",
-      "submittedAt": "2026-05-23T03:02",
-      "wrongCount": 0,
-      "errors": []
-    },
-    {
-      "id": 1779505327715,
-      "studentId": 1779505198079,
-      "assignmentId": 1779504506916,
-      "status": "submitted",
-      "submittedAt": "2026-05-23T03:02",
-      "wrongCount": 0,
-      "errors": []
-    },
-    {
-      "id": 1779505328361,
-      "studentId": 1779505210372,
-      "assignmentId": 1779504506916,
-      "status": "submitted",
-      "submittedAt": "2026-05-23T03:02",
-      "wrongCount": 0,
-      "errors": []
-    },
-    {
-      "id": 1779505328758,
-      "studentId": 1779505225907,
-      "assignmentId": 1779504506916,
-      "status": "submitted",
-      "submittedAt": "2026-05-23T03:02",
-      "wrongCount": 0,
-      "errors": []
-    },
-    {
-      "id": 1779505330510,
-      "studentId": 1779505191265,
-      "assignmentId": 1779504506916,
-      "status": "submitted",
-      "submittedAt": "2026-05-23T03:02",
-      "wrongCount": 0,
-      "errors": []
-    },
-    {
-      "id": 1779505331192,
-      "studentId": 1779505215325,
-      "assignmentId": 1779504506916,
-      "status": "submitted",
-      "submittedAt": "2026-05-23T03:02",
-      "wrongCount": 0,
-      "errors": []
-    },
-    {
-      "id": 1779505866690,
-      "studentId": 1779505863724,
-      "assignmentId": 1779504506916,
-      "status": "submitted",
-      "submittedAt": "2026-05-23T03:11",
-      "wrongCount": 0,
-      "errors": []
     }
   ],
-  "_modified": 1779508293297
+  "_modified": 1779501157833
 }
