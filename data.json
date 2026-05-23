@@ -859,9 +859,76 @@
       "assignmentId": 1779501147978,
       "status": "submitted",
       "submittedAt": "2026-05-23T07:05",
-      "wrongCount": 0,
-      "errors": []
+      "wrongCount": 11,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "be动词混淆(am/is/are)"
+          ]
+        },
+        {
+          "questionNo": 2,
+          "errorReasons": [
+            "介词错误"
+          ]
+        },
+        {
+          "questionNo": 3,
+          "errorReasons": [
+            "审题不清"
+          ]
+        },
+        {
+          "questionNo": 4,
+          "errorReasons": [
+            "be动词混淆(am/is/are)"
+          ]
+        },
+        {
+          "questionNo": 5,
+          "errorReasons": [
+            "审题不清"
+          ]
+        },
+        {
+          "questionNo": 6,
+          "errorReasons": [
+            "审题不清"
+          ]
+        },
+        {
+          "questionNo": 7,
+          "errorReasons": [
+            "审题不清"
+          ]
+        },
+        {
+          "questionNo": 8,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        },
+        {
+          "questionNo": 10,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        },
+        {
+          "questionNo": 11,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        },
+        {
+          "questionNo": 12,
+          "errorReasons": [
+            "审题不清"
+          ]
+        }
+      ]
     }
   ],
-  "_modified": 1779519928678
+  "_modified": 1779519980444
 }
