@@ -1017,8 +1017,69 @@
       "assignmentId": 1779501147978,
       "status": "submitted",
       "submittedAt": "2026-05-23T09:09",
-      "wrongCount": 0,
-      "errors": []
+      "wrongCount": 10,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "阅读理解错误"
+          ]
+        },
+        {
+          "questionNo": 2,
+          "errorReasons": [
+            "阅读理解错误"
+          ]
+        },
+        {
+          "questionNo": 3,
+          "errorReasons": [
+            "阅读理解错误"
+          ]
+        },
+        {
+          "questionNo": 4,
+          "errorReasons": [
+            "阅读理解错误"
+          ]
+        },
+        {
+          "questionNo": 5,
+          "errorReasons": [
+            "阅读理解错误"
+          ]
+        },
+        {
+          "questionNo": 6,
+          "errorReasons": [
+            "阅读理解错误"
+          ]
+        },
+        {
+          "questionNo": 7,
+          "errorReasons": [
+            "阅读理解错误"
+          ]
+        },
+        {
+          "questionNo": 8,
+          "errorReasons": [
+            "阅读理解错误"
+          ]
+        },
+        {
+          "questionNo": 9,
+          "errorReasons": [
+            "阅读理解错误"
+          ]
+        },
+        {
+          "questionNo": 10,
+          "errorReasons": [
+            "阅读理解错误"
+          ]
+        }
+      ]
     },
     {
       "id": 1779524396715,
@@ -1197,5 +1258,5 @@
       "errors": []
     }
   ],
-  "_modified": 1779527373199
+  "_modified": 1779527411884
 }
