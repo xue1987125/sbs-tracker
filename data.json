@@ -272,15 +272,6 @@
       "createdAt": "2026-05-22T14:28"
     },
     {
-      "id": 1779498150851,
-      "title": "happy",
-      "classGroup": "K3 周六9:00-1",
-      "type": "复习作业",
-      "totalQuestions": 0,
-      "dueDate": "2026-05-23",
-      "createdAt": "2026-05-23T01:02"
-    },
-    {
       "id": 1779498171595,
       "title": "chloe",
       "classGroup": "K3 周六9:00-1",
@@ -545,5 +536,5 @@
       "errors": []
     }
   ],
-  "_modified": 1779504528792
+  "_modified": 1779504576733
 }
