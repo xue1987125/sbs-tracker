@@ -348,7 +348,7 @@
       "title": "第12课 unit 5-3 测试卷 5.23 作业",
       "classGroup": "周六SBS 15:00班",
       "type": "测试卷",
-      "totalQuestions": 0,
+      "totalQuestions": 10,
       "dueDate": "2026-05-30",
       "createdAt": "2026-05-23T09:32"
     }
@@ -1260,9 +1260,22 @@
       "assignmentId": 1779528745341,
       "status": "submitted",
       "submittedAt": "2026-05-23T09:32",
-      "wrongCount": 0,
-      "errors": []
+      "wrongCount": 2,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        },
+        {
+          "questionNo": 2,
+          "errorReasons": [
+            "阅读理解错误"
+          ]
+        }
+      ]
     }
   ],
-  "_modified": 1779528752091
+  "_modified": 1779528765809
 }
