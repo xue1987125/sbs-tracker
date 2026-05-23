@@ -1017,7 +1017,7 @@
       "assignmentId": 1779501147978,
       "status": "submitted",
       "submittedAt": "2026-05-23T09:14",
-      "wrongCount": 10,
+      "wrongCount": 8,
       "errors": [
         {
           "questionNo": 1,
@@ -1063,18 +1063,6 @@
         },
         {
           "questionNo": 8,
-          "errorReasons": [
-            "阅读理解错误"
-          ]
-        },
-        {
-          "questionNo": 9,
-          "errorReasons": [
-            "阅读理解错误"
-          ]
-        },
-        {
-          "questionNo": 10,
           "errorReasons": [
             "阅读理解错误"
           ]
@@ -1258,5 +1246,5 @@
       "errors": []
     }
   ],
-  "_modified": 1779527675316
+  "_modified": 1779527685334
 }
