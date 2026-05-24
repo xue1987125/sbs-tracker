@@ -371,6 +371,15 @@
       "totalQuestions": 43,
       "dueDate": "2026-05-30",
       "createdAt": "2026-05-23T09:32"
+    },
+    {
+      "id": 1779590553127,
+      "title": "e_e",
+      "classGroup": "K3 周日10:40-1",
+      "type": "复习作业",
+      "totalQuestions": 0,
+      "dueDate": "2026-05-24",
+      "createdAt": "2026-05-24T02:42"
     }
   ],
   "submissions": [
@@ -1383,5 +1392,5 @@
       ]
     }
   ],
-  "_modified": 1779590522558
+  "_modified": 1779590553127
 }
