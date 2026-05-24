@@ -386,7 +386,7 @@
       "title": "e_e 卷子",
       "classGroup": "K3 周日10:40-1",
       "type": "测试卷",
-      "totalQuestions": 0,
+      "totalQuestions": 10,
       "dueDate": "2026-05-24",
       "createdAt": "2026-05-24T02:43"
     }
@@ -1433,9 +1433,28 @@
       "assignmentId": 1779590592535,
       "status": "submitted",
       "submittedAt": "2026-05-24T02:43",
-      "wrongCount": 0,
-      "errors": []
+      "wrongCount": 3,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "单复数错误"
+          ]
+        },
+        {
+          "questionNo": 2,
+          "errorReasons": [
+            "单复数错误"
+          ]
+        },
+        {
+          "questionNo": 3,
+          "errorReasons": [
+            "单复数错误"
+          ]
+        }
+      ]
     }
   ],
-  "_modified": 1779590600789
+  "_modified": 1779590634952
 }
