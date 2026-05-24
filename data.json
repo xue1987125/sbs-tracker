@@ -1532,9 +1532,97 @@
       "assignmentId": 1779380895986,
       "status": "submitted",
       "submittedAt": "2026-05-24T05:07",
-      "wrongCount": 0,
-      "errors": []
+      "wrongCount": 14,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 2,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 3,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 4,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 5,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 6,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 7,
+          "errorReasons": [
+            "时态错误",
+            "代词错误",
+            "介词错误"
+          ]
+        },
+        {
+          "questionNo": 8,
+          "errorReasons": [
+            "时态错误",
+            "代词错误"
+          ]
+        },
+        {
+          "questionNo": 10,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        },
+        {
+          "questionNo": 11,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        },
+        {
+          "questionNo": 12,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        },
+        {
+          "questionNo": 13,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        },
+        {
+          "questionNo": 14,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        },
+        {
+          "questionNo": 15,
+          "errorReasons": [
+            "审题不清"
+          ]
+        }
+      ]
     }
   ],
-  "_modified": 1779599223685
+  "_modified": 1779599267086
 }
