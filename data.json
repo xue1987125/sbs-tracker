@@ -373,15 +373,6 @@
       "createdAt": "2026-05-23T09:32"
     },
     {
-      "id": 1779590553127,
-      "title": "e_e",
-      "classGroup": "K3 周日10:40-1",
-      "type": "复习作业",
-      "totalQuestions": 0,
-      "dueDate": "2026-05-24",
-      "createdAt": "2026-05-24T02:42"
-    },
-    {
       "id": 1779590592535,
       "title": "e_e 卷子",
       "classGroup": "K3 周日10:40-1",
@@ -1401,24 +1392,6 @@
       ]
     },
     {
-      "id": 1779590558000,
-      "studentId": 1779590430633,
-      "assignmentId": 1779590553127,
-      "status": "not_submitted",
-      "submittedAt": "2026-05-24T02:42",
-      "wrongCount": 0,
-      "errors": []
-    },
-    {
-      "id": 1779590558447,
-      "studentId": 1779590522558,
-      "assignmentId": 1779590553127,
-      "status": "not_submitted",
-      "submittedAt": "2026-05-24T02:42",
-      "wrongCount": 0,
-      "errors": []
-    },
-    {
       "id": 1779590600101,
       "studentId": 1779590430633,
       "assignmentId": 1779590592535,
@@ -1456,5 +1429,5 @@
       ]
     }
   ],
-  "_modified": 1779590634952
+  "_modified": 1779590646421
 }
