@@ -2450,9 +2450,22 @@
       "assignmentId": 1779528745341,
       "status": "submitted",
       "submittedAt": "2026-05-30T06:58",
-      "wrongCount": 0,
-      "errors": []
+      "wrongCount": 2,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "单复数错误"
+          ]
+        },
+        {
+          "questionNo": 16,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        }
+      ]
     }
   ],
-  "_modified": 1780124324599
+  "_modified": 1780124342878
 }
