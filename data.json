@@ -2259,8 +2259,8 @@
       "id": 1779621853547,
       "studentId": 1779380915983,
       "assignmentId": 1779383570622,
-      "status": "not_submitted",
-      "submittedAt": "2026-05-24T11:24",
+      "status": "submitted",
+      "submittedAt": "2026-05-31T05:43",
       "wrongCount": 0,
       "errors": []
     },
@@ -3116,5 +3116,5 @@
       ]
     }
   ],
-  "_modified": 1780206016976
+  "_modified": 1780206231834
 }
