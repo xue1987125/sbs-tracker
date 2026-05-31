@@ -284,6 +284,11 @@
       "id": 1780196888793,
       "name": "amy",
       "group": "K3 周日10:40-1"
+    },
+    {
+      "id": 1780196902944,
+      "name": "matthew",
+      "group": "K3 周日10:40-1"
     }
   ],
   "assignments": [
@@ -2565,7 +2570,16 @@
       "submittedAt": "2026-05-31T03:07",
       "wrongCount": 0,
       "errors": []
+    },
+    {
+      "id": 1780196890558,
+      "studentId": 1780196888793,
+      "assignmentId": 1780196862421,
+      "status": "submitted",
+      "submittedAt": "2026-05-31T03:08",
+      "wrongCount": 0,
+      "errors": []
     }
   ],
-  "_modified": 1780196888793
+  "_modified": 1780196902944
 }
