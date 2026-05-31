@@ -2261,8 +2261,15 @@
       "assignmentId": 1779383570622,
       "status": "submitted",
       "submittedAt": "2026-05-31T05:43",
-      "wrongCount": 0,
-      "errors": []
+      "wrongCount": 1,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "时态错误"
+          ]
+        }
+      ]
     },
     {
       "id": 1779714369495,
@@ -2970,7 +2977,7 @@
       "studentId": 1779380959650,
       "assignmentId": 1780205164017,
       "status": "submitted",
-      "submittedAt": "2026-05-31T05:26",
+      "submittedAt": "2026-05-31T05:46",
       "wrongCount": 15,
       "errors": [
         {
@@ -3116,5 +3123,5 @@
       ]
     }
   ],
-  "_modified": 1780206231834
+  "_modified": 1780206366794
 }
