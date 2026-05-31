@@ -446,7 +446,7 @@
       "title": "第23ke",
       "classGroup": "周日SBS 14:00班",
       "type": "测试卷",
-      "totalQuestions": 0,
+      "totalQuestions": 60,
       "dueDate": "2026-05-31",
       "createdAt": "2026-05-31T05:26"
     }
@@ -2941,10 +2941,29 @@
       "id": 1780205171592,
       "studentId": 1779380948966,
       "assignmentId": 1780205164017,
-      "status": "not_submitted",
-      "submittedAt": "2026-05-31T05:26",
-      "wrongCount": 0,
-      "errors": []
+      "status": "submitted",
+      "submittedAt": "2026-05-31T05:31",
+      "wrongCount": 3,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 2,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 14,
+          "errorReasons": [
+            "时态错误"
+          ]
+        }
+      ]
     },
     {
       "id": 1780205173621,
@@ -2952,9 +2971,109 @@
       "assignmentId": 1780205164017,
       "status": "submitted",
       "submittedAt": "2026-05-31T05:26",
+      "wrongCount": 15,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 2,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 3,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 4,
+          "errorReasons": [
+            "介词错误"
+          ]
+        },
+        {
+          "questionNo": 5,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 6,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 7,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 8,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 9,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 10,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 11,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 12,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 13,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 14,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 15,
+          "errorReasons": [
+            "时态错误"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1780205677020,
+      "studentId": 1779380928133,
+      "assignmentId": 1780205164017,
+      "status": "submitted",
+      "submittedAt": "2026-05-31T05:34",
       "wrongCount": 0,
       "errors": []
     }
   ],
-  "_modified": 1780205173621
+  "_modified": 1780205677020
 }
