@@ -431,6 +431,15 @@
       "totalQuestions": 0,
       "dueDate": "2026-05-31",
       "createdAt": "2026-05-31T03:07"
+    },
+    {
+      "id": 1780203863074,
+      "title": "第30 课练习卷",
+      "classGroup": "周日SBS 13:00班",
+      "type": "测试卷",
+      "totalQuestions": 0,
+      "dueDate": "2026-05-31",
+      "createdAt": "2026-05-31T05:04"
     }
   ],
   "submissions": [
@@ -2800,5 +2809,5 @@
       "errors": []
     }
   ],
-  "_modified": 1780197424442
+  "_modified": 1780203863075
 }
