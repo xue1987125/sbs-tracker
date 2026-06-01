@@ -455,7 +455,7 @@
       "title": "第11课练习卷",
       "classGroup": "周日SBS 15:00班",
       "type": "测试卷",
-      "totalQuestions": 0,
+      "totalQuestions": 10,
       "dueDate": "2026-05-31",
       "createdAt": "2026-05-31T11:46"
     }
@@ -3198,8 +3198,21 @@
       "assignmentId": 1780228000988,
       "status": "submitted",
       "submittedAt": "2026-06-01T05:59",
-      "wrongCount": 0,
-      "errors": []
+      "wrongCount": 2,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        },
+        {
+          "questionNo": 2,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        }
+      ]
     },
     {
       "id": 1780228014255,
@@ -3211,5 +3224,5 @@
       "errors": []
     }
   ],
-  "_modified": 1780293548128
+  "_modified": 1780293557648
 }
