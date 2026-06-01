@@ -3198,18 +3198,54 @@
       "assignmentId": 1780228000988,
       "status": "submitted",
       "submittedAt": "2026-06-01T05:59",
-      "wrongCount": 2,
+      "wrongCount": 8,
       "errors": [
         {
           "questionNo": 1,
           "errorReasons": [
-            "拼写错误"
+            "时态错误"
           ]
         },
         {
           "questionNo": 2,
           "errorReasons": [
             "拼写错误"
+          ]
+        },
+        {
+          "questionNo": 3,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 4,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 5,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 6,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 7,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 8,
+          "errorReasons": [
+            "时态错误"
           ]
         }
       ]
@@ -3279,5 +3315,5 @@
       ]
     }
   ],
-  "_modified": 1780293602169
+  "_modified": 1780293624699
 }
