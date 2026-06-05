@@ -464,7 +464,7 @@
       "title": "第23课测试卷",
       "classGroup": "周日SBS 14:00班",
       "type": "测试卷",
-      "totalQuestions": 0,
+      "totalQuestions": 23,
       "dueDate": "2026-06-07",
       "createdAt": "2026-06-05T08:01"
     }
@@ -3443,9 +3443,22 @@
       "assignmentId": 1780646493493,
       "status": "submitted",
       "submittedAt": "2026-06-05T08:01",
-      "wrongCount": 0,
-      "errors": []
+      "wrongCount": 2,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "审题不清"
+          ]
+        },
+        {
+          "questionNo": 16,
+          "errorReasons": [
+            "单复数错误"
+          ]
+        }
+      ]
     }
   ],
-  "_modified": 1780646502074
+  "_modified": 1780646548270
 }
