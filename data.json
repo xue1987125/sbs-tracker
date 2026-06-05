@@ -473,7 +473,7 @@
       "title": "31 测试卷",
       "classGroup": "周日SBS 13:00班",
       "type": "测试卷",
-      "totalQuestions": 0,
+      "totalQuestions": 56,
       "dueDate": "2026-06-07",
       "createdAt": "2026-06-05T09:11"
     }
@@ -3467,7 +3467,44 @@
           ]
         }
       ]
+    },
+    {
+      "id": 1780650688085,
+      "studentId": 1779380851317,
+      "assignmentId": 1780650681817,
+      "status": "submitted",
+      "submittedAt": "2026-06-05T09:11",
+      "wrongCount": 3,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "语序错误"
+          ]
+        },
+        {
+          "questionNo": 9,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 16,
+          "errorReasons": [
+            "时态错误"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 1780650689269,
+      "studentId": 1779380846085,
+      "assignmentId": 1780650681817,
+      "status": "submitted",
+      "submittedAt": "2026-06-05T09:11",
+      "wrongCount": 0,
+      "errors": []
     }
   ],
-  "_modified": 1780650681817
+  "_modified": 1780650718901
 }
