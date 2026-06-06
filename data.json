@@ -476,6 +476,24 @@
       "totalQuestions": 56,
       "dueDate": "2026-06-07",
       "createdAt": "2026-06-05T09:11"
+    },
+    {
+      "id": 1780708656367,
+      "title": "sh作业",
+      "classGroup": "K3 周六9:00-1",
+      "type": "测试卷",
+      "totalQuestions": 0,
+      "dueDate": "2026-06-06",
+      "createdAt": "2026-06-06T01:17"
+    },
+    {
+      "id": 1780720721917,
+      "title": "au作业",
+      "classGroup": "K3 周六10:40-1",
+      "type": "测试卷",
+      "totalQuestions": 0,
+      "dueDate": "2026-06-13",
+      "createdAt": "2026-06-06T04:38"
     }
   ],
   "submissions": [
@@ -3547,7 +3565,16 @@
           ]
         }
       ]
+    },
+    {
+      "id": 1780720779980,
+      "studentId": 1779507709426,
+      "assignmentId": 1780720721917,
+      "status": "submitted",
+      "submittedAt": "2026-06-06T04:39",
+      "wrongCount": 0,
+      "errors": []
     }
   ],
-  "_modified": 1780650761018
+  "_modified": 1780720779980
 }
