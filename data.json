@@ -4010,7 +4010,7 @@
       "assignmentId": 1780646493493,
       "status": "submitted",
       "submittedAt": "2026-06-07T06:01",
-      "wrongCount": 5,
+      "wrongCount": 4,
       "errors": [
         {
           "questionNo": 1,
@@ -4031,12 +4031,6 @@
           ]
         },
         {
-          "questionNo": 4,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
           "questionNo": 5,
           "errorReasons": [
             "时态错误"
@@ -4045,5 +4039,5 @@
       ]
     }
   ],
-  "_modified": 1780812087070
+  "_modified": 1780812092139
 }
