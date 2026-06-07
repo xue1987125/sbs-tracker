@@ -3768,7 +3768,7 @@
       "assignmentId": 1780650681817,
       "status": "submitted",
       "submittedAt": "2026-06-07T05:25",
-      "wrongCount": 13,
+      "wrongCount": 10,
       "errors": [
         {
           "questionNo": 1,
@@ -3829,27 +3829,9 @@
           "errorReasons": [
             "冠词遗漏/误用"
           ]
-        },
-        {
-          "questionNo": 11,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 13,
-          "errorReasons": [
-            "时态错误"
-          ]
-        },
-        {
-          "questionNo": 14,
-          "errorReasons": [
-            "时态错误"
-          ]
         }
       ]
     }
   ],
-  "_modified": 1780809900728
+  "_modified": 1780809918223
 }
