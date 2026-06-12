@@ -4044,9 +4044,28 @@
       "assignmentId": 1780741121411,
       "status": "submitted",
       "submittedAt": "2026-06-12T08:58",
-      "wrongCount": 0,
-      "errors": []
+      "wrongCount": 3,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "介词错误"
+          ]
+        },
+        {
+          "questionNo": 2,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        },
+        {
+          "questionNo": 3,
+          "errorReasons": [
+            "拼写错误"
+          ]
+        }
+      ]
     }
   ],
-  "_modified": 1781254698856
+  "_modified": 1781254718655
 }
