@@ -527,7 +527,7 @@
       "title": "第32课试卷",
       "classGroup": "周日SBS 13:00班",
       "type": "测试卷",
-      "totalQuestions": 0,
+      "totalQuestions": 42,
       "dueDate": "2026-06-19",
       "createdAt": "2026-06-12T10:49"
     }
@@ -4081,8 +4081,51 @@
       "assignmentId": 1781261373390,
       "status": "submitted",
       "submittedAt": "2026-06-12T10:50",
-      "wrongCount": 0,
-      "errors": []
+      "wrongCount": 7,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "未掌握知识点"
+          ]
+        },
+        {
+          "questionNo": 2,
+          "errorReasons": [
+            "未掌握知识点"
+          ]
+        },
+        {
+          "questionNo": 3,
+          "errorReasons": [
+            "未掌握知识点"
+          ]
+        },
+        {
+          "questionNo": 4,
+          "errorReasons": [
+            "未掌握知识点"
+          ]
+        },
+        {
+          "questionNo": 5,
+          "errorReasons": [
+            "未掌握知识点"
+          ]
+        },
+        {
+          "questionNo": 6,
+          "errorReasons": [
+            "未掌握知识点"
+          ]
+        },
+        {
+          "questionNo": 7,
+          "errorReasons": [
+            "未掌握知识点"
+          ]
+        }
+      ]
     },
     {
       "id": 1781261404193,
@@ -4094,5 +4137,5 @@
       "errors": []
     }
   ],
-  "_modified": 1781261404193
+  "_modified": 1781261456915
 }
