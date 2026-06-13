@@ -554,7 +554,7 @@
       "title": "第17课试卷",
       "classGroup": "周六SBS 16:40班",
       "type": "测试卷",
-      "totalQuestions": 0,
+      "totalQuestions": 36,
       "dueDate": "2026-06-13",
       "createdAt": "2026-06-13T09:30"
     }
@@ -4496,8 +4496,21 @@
       "assignmentId": 1781343046264,
       "status": "submitted",
       "submittedAt": "2026-06-13T09:31",
-      "wrongCount": 0,
-      "errors": []
+      "wrongCount": 2,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 16,
+          "errorReasons": [
+            "时态错误"
+          ]
+        }
+      ]
     },
     {
       "id": 1781343056440,
@@ -4527,5 +4540,5 @@
       "errors": []
     }
   ],
-  "_modified": 1781343119851
+  "_modified": 1781343131559
 }
