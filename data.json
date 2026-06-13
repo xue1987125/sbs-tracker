@@ -4495,7 +4495,7 @@
       "studentId": 1779375107379,
       "assignmentId": 1781343046264,
       "status": "submitted",
-      "submittedAt": "2026-06-13T09:30",
+      "submittedAt": "2026-06-13T09:31",
       "wrongCount": 0,
       "errors": []
     },
@@ -4527,5 +4527,5 @@
       "errors": []
     }
   ],
-  "_modified": 1781343071659
+  "_modified": 1781343119851
 }
