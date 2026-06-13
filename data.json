@@ -554,7 +554,7 @@
       "title": "第17课试卷",
       "classGroup": "周六SBS 16:40班",
       "type": "测试卷",
-      "totalQuestions": 36,
+      "totalQuestions": 32,
       "dueDate": "2026-06-13",
       "createdAt": "2026-06-13T09:30"
     }
@@ -4540,5 +4540,5 @@
       "errors": []
     }
   ],
-  "_modified": 1781343131559
+  "_modified": 1781343147680
 }
