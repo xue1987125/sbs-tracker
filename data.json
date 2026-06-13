@@ -553,7 +553,7 @@
       "id": 1781343046264,
       "title": "第17课试卷",
       "classGroup": "周六SBS 16:40班",
-      "type": "复习作业",
+      "type": "测试卷",
       "totalQuestions": 0,
       "dueDate": "2026-06-13",
       "createdAt": "2026-06-13T09:30"
@@ -4527,5 +4527,5 @@
       "errors": []
     }
   ],
-  "_modified": 1781343058788
+  "_modified": 1781343071659
 }
