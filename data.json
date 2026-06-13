@@ -530,6 +530,15 @@
       "totalQuestions": 42,
       "dueDate": "2026-06-19",
       "createdAt": "2026-06-12T10:49"
+    },
+    {
+      "id": 1781316895110,
+      "title": "th课后作业",
+      "classGroup": "K3 周六9:00-1",
+      "type": "测试卷",
+      "totalQuestions": 0,
+      "dueDate": "2026-06-13",
+      "createdAt": "2026-06-13T02:14"
     }
   ],
   "submissions": [
@@ -4135,7 +4144,43 @@
       "submittedAt": "2026-06-12T10:50",
       "wrongCount": 0,
       "errors": []
+    },
+    {
+      "id": 1781316904738,
+      "studentId": 1779498145870,
+      "assignmentId": 1781316895110,
+      "status": "submitted",
+      "submittedAt": "2026-06-13T02:15",
+      "wrongCount": 0,
+      "errors": []
+    },
+    {
+      "id": 1781316905831,
+      "studentId": 1779504333551,
+      "assignmentId": 1781316895110,
+      "status": "submitted",
+      "submittedAt": "2026-06-13T02:15",
+      "wrongCount": 0,
+      "errors": []
+    },
+    {
+      "id": 1781316906949,
+      "studentId": 1779504380336,
+      "assignmentId": 1781316895110,
+      "status": "submitted",
+      "submittedAt": "2026-06-13T02:15",
+      "wrongCount": 0,
+      "errors": []
+    },
+    {
+      "id": 1781316907764,
+      "studentId": 1779504463072,
+      "assignmentId": 1781316895110,
+      "status": "submitted",
+      "submittedAt": "2026-06-13T02:15",
+      "wrongCount": 0,
+      "errors": []
     }
   ],
-  "_modified": 1781261456915
+  "_modified": 1781316907764
 }
