@@ -4545,9 +4545,40 @@
       "assignmentId": 1781261373390,
       "status": "submitted",
       "submittedAt": "2026-06-14T05:11",
-      "wrongCount": 0,
-      "errors": []
+      "wrongCount": 5,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 2,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 3,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 4,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 5,
+          "errorReasons": [
+            "阅读理解错误"
+          ]
+        }
+      ]
     }
   ],
-  "_modified": 1781413911491
+  "_modified": 1781413930075
 }
