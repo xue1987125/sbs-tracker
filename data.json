@@ -572,7 +572,7 @@
       "title": "第15课试卷",
       "classGroup": "周六SBS 15:00班",
       "type": "测试卷",
-      "totalQuestions": 0,
+      "totalQuestions": 47,
       "dueDate": "2026-06-22",
       "createdAt": "2026-06-15T14:39"
     }
@@ -4678,7 +4678,77 @@
       "submittedAt": "2026-06-15T14:40",
       "wrongCount": 0,
       "errors": []
+    },
+    {
+      "id": 1781534421876,
+      "studentId": 1779374989096,
+      "assignmentId": 1781534390774,
+      "status": "submitted",
+      "submittedAt": "2026-06-15T14:40",
+      "wrongCount": 10,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 2,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 3,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 4,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 5,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 6,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 7,
+          "errorReasons": [
+            "语序错误"
+          ]
+        },
+        {
+          "questionNo": 8,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 9,
+          "errorReasons": [
+            "时态错误"
+          ]
+        },
+        {
+          "questionNo": 10,
+          "errorReasons": [
+            "时态错误"
+          ]
+        }
+      ]
     }
   ],
-  "_modified": 1781534418926
+  "_modified": 1781534466533
 }
