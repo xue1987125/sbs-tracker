@@ -590,7 +590,7 @@
       "title": "25可测试卷",
       "classGroup": "周日SBS 14:00班",
       "type": "测试卷",
-      "totalQuestions": 0,
+      "totalQuestions": 47,
       "dueDate": "2026-06-28",
       "createdAt": "2026-06-21T05:24"
     }
@@ -4827,9 +4827,16 @@
       "assignmentId": 1782019483126,
       "status": "submitted",
       "submittedAt": "2026-06-21T05:28",
-      "wrongCount": 0,
-      "errors": []
+      "wrongCount": 1,
+      "errors": [
+        {
+          "questionNo": 1,
+          "errorReasons": [
+            "时态错误"
+          ]
+        }
+      ]
     }
   ],
-  "_modified": 1782019713202
+  "_modified": 1782019725920
 }
